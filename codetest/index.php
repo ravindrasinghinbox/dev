@@ -15,44 +15,38 @@ require 'tests/index.php';
 function makeNecklace($blue, $red, $yellow, $green)
 {
     $num = 0;
-    $prev = 0;
+    $prev = null;
     $limit = 2000;
     
     for ($i = 0; $i < $limit; $i++)
     {
-        if ($prev == 0 || $prev == 2)
+        if(($prev == null || $prev == 0 || $prev == 2) && $blue)
         {
-            if($blue)
-            {
-                $blue--;
-                $num++;
-                $prev = 0;
-                draw('blue');
-            }
-            else if($red)
-            {
-                $red--;
-                $num++;
-                $prev = 1;
-                draw('red');
-            }
+            $blue--;
+            $num++;
+            $prev = 0;
+            draw('blue');
         }
-        else if($prev == 1 || $prev == 3)
+        else if(($prev == null || $prev == 2 || $prev == 0) && $red)
         {
-            if($green)
-            {
-                $green--;
-                $num++;
-                $prev = 3;
-                draw('green');
-            }
-            else if($yellow)
-            {
-                $yellow--;
-                $num++;
-                $prev = 2;
-                draw('yellow');
-            }
+            $red--;
+            $num++;
+            $prev = 1;
+            draw('red');
+        }
+        else if(($prev == null || $prev == 1 || $prev == 3) && $green)
+        {
+            $green--;
+            $num++;
+            $prev = 3;
+            draw('green');
+        }
+        else if(($prev == 3 || $prev == 1) && $yellow)
+        {
+            $yellow--;
+            $num++;
+            $prev = 2;
+            draw('yellow');
         }
     }
     drawLine($num);
@@ -65,7 +59,7 @@ function makeNecklace($blue, $red, $yellow, $green)
  */
 function draw($val)
 {
-    echo '<span style="display:inline-block;width:25px;height:25px;border-radius:50%;background:'.$val.'">&nbsp;</span>';
+    echo '<span style="display:inline-block;width:25px;height:25px;border-radius:50%;line-height: 24px;text-align:center;background:'.$val.'">'.substr($val,0,1).'</span>';
 }
 
 /**

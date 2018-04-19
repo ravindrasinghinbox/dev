@@ -43,6 +43,31 @@ function tests()
             "expect" => 10,
             "msg" => "Should work with 0 blue, 0 red,  0 yellow, and 10 green"
         ),
+        array(
+            "input" => [0,0,0,0],
+            "expect" => 0,
+            "msg" => "Should work with 0 blue, 0 red,  0 yellow, and 0 green"
+        ),
+        array(
+            "input" => [1,1,5,5],
+            "expect" => 8,
+            "msg" => "Should work with 1 blue, 1 red,  5 yellow, and 5 green"
+        ),
+        array(
+            "input" => [5,0,5,5],
+            "expect" => 11,
+            "msg" => "Should work with 5 blue, 0 red,  5 yellow, and 5 green"
+        ),
+        array(
+            "input" => [0,0,5,5],
+            "expect" => 6,
+            "msg" => "Should work with 0 blue, 0 red,  5 yellow, and 5 green"
+        ),
+        array(
+            "input" => [5,0,0,5],
+            "expect" => 10,
+            "msg" => "Should work with 5 blue, 0 red,  0 yellow, and 5 green"
+        ),
     );
     
     $totalTest = 0;
@@ -50,7 +75,10 @@ function tests()
     foreach($testCase as $key => $value)
     {
         $totalTest++;
+//        $startTime = microtime();
         $output = call_user_func_array("makeNecklace", $value['input']);
+//        echo 'Memory(kb): '.memory_get_usage()/1024;
+//        echo '<br/>Time(ms): '.(microtime() - $startTime).'</br>';
         if($value['expect'] !== $output)
         {
             echo 'Expected: '.$value['expect'].' : '.$output.'<pre style="color:red;">Failed case '.($key+1).': '.$value['msg'].'</pre>';
