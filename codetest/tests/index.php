@@ -24,9 +24,24 @@ function tests()
             "msg" => "Should work with 0 blue, 10 red,  0 yellow, and 0 green"
         ),
         array(
+            "input" => [5,0,0,0],
+            "expect" => 5,
+            "msg" => "Should work with 5 blue, 0 red,  0 yellow, and 0 green"
+        ),
+        array(
             "input" => [0,0,5,0],
             "expect" => 0,
             "msg" => "Should work with 0 blue, 0 red,  5 yellow, and 0 green"
+        ),
+        array(
+            "input" => [3,4,2,1],
+            "expect" => 9,
+            "msg" => "Should work with 3 blue, 4 red,  2 yellow, and 1 green"
+        ),
+        array(
+            "input" => [0,0,0,10],
+            "expect" => 10,
+            "msg" => "Should work with 0 blue, 0 red,  0 yellow, and 10 green"
         ),
     );
     
