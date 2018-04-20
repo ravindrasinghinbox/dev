@@ -34,6 +34,11 @@ function tests()
             "msg" => "Should work with 0 blue, 0 red,  5 yellow, and 0 green"
         ),
         array(
+            "input" => [0,0,0,5],
+            "expect" => 0,
+            "msg" => "Should work with 0 blue, 0 red,  0 yellow, and 5 green"
+        ),
+        array(
             "input" => [3,4,2,1],
             "expect" => 9,
             "msg" => "Should work with 3 blue, 4 red,  2 yellow, and 1 green"
@@ -71,12 +76,12 @@ function tests()
         array(
             "input" => [0,2000,2000,2000],
             "expect" => 6000,
-            "msg" => "Should work with 1 blue, 1 red, 1 yellow and 0 green"
+            "msg" => "Should work with 0 blue, 2000 red, 2000 yellow and 2000 green"
         ),
         array(
             "input" => [100,20,0,20],
             "expect" => 140,
-            "msg" => "Should work with 1 blue, 1 red, 1 yellow and 0 green"
+            "msg" => "Should work with 100 blue, 20 red, 0 yellow and 20 green"
         ),
     );
     

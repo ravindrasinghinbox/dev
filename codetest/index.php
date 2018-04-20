@@ -16,7 +16,7 @@ require 'tests/index.php';
     {
         $num = 0;
         $prev = null;
-        $limit = 8000;
+        $limit = $blue+$red+$yellow+$green;
 
         for ($i = 0; $i < $limit; $i++)
         {
@@ -41,7 +41,7 @@ require 'tests/index.php';
                 $prev = 3;
                 draw('green');
             }
-            else if(($prev == 3 || $prev == 1) && $yellow)
+            else if(($prev == null || $prev == 3 || $prev == 1) && $yellow)
             {
                 $yellow--;
                 $num++;
