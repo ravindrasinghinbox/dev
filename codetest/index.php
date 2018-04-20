@@ -2,56 +2,56 @@
 
 require 'tests/index.php';
 
-/**
- * Function will build necklace
- * based on given parameter
- * 
- * @param int $blue
- * @param int $red
- * @param int $yellow
- * @param int $green
- * @return int Number of used ruby
- */
-function makeNecklace($blue, $red, $yellow, $green)
-{
-    $num = 0;
-    $prev = null;
-    $limit = 2000;
-    
-    for ($i = 0; $i < $limit; $i++)
+    /**
+     * Function will build necklace
+     * based on given parameter
+     * 
+     * @param int $blue
+     * @param int $red
+     * @param int $yellow
+     * @param int $green
+     * @return int Number of used ruby
+     */
+    function makeNecklace($blue, $red, $yellow, $green)
     {
-        if(($prev == null || $prev == 0 || $prev == 2) && $blue)
+        $num = 0;
+        $prev = null;
+        $limit = 8000;
+
+        for ($i = 0; $i < $limit; $i++)
         {
-            $blue--;
-            $num++;
-            $prev = 0;
-            draw('blue');
+            if(($prev == null || $prev == 0 || $prev == 2) && $blue)
+            {
+                $blue--;
+                $num++;
+                $prev = 0;
+                draw('blue');
+            }
+            else if(($prev == null || $prev == 2 || $prev == 0) && $red)
+            {
+                $red--;
+                $num++;
+                $prev = 1;
+                draw('red');
+            }
+            else if(($prev == null || $prev == 1 || $prev == 3) && $green)
+            {
+                $green--;
+                $num++;
+                $prev = 3;
+                draw('green');
+            }
+            else if(($prev == 3 || $prev == 1) && $yellow)
+            {
+                $yellow--;
+                $num++;
+                $prev = 2;
+                draw('yellow');
+            }
         }
-        else if(($prev == null || $prev == 2 || $prev == 0) && $red)
-        {
-            $red--;
-            $num++;
-            $prev = 1;
-            draw('red');
-        }
-        else if(($prev == null || $prev == 1 || $prev == 3) && $green)
-        {
-            $green--;
-            $num++;
-            $prev = 3;
-            draw('green');
-        }
-        else if(($prev == 3 || $prev == 1) && $yellow)
-        {
-            $yellow--;
-            $num++;
-            $prev = 2;
-            draw('yellow');
-        }
+        drawLine($num);
+        return $num;
     }
-    drawLine($num);
-    return $num;
-}
 
 /**
  * Draw val

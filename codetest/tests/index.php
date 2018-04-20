@@ -68,6 +68,16 @@ function tests()
             "expect" => 10,
             "msg" => "Should work with 5 blue, 0 red,  0 yellow, and 5 green"
         ),
+        array(
+            "input" => [0,2000,2000,2000],
+            "expect" => 6000,
+            "msg" => "Should work with 1 blue, 1 red, 1 yellow and 0 green"
+        ),
+        array(
+            "input" => [100,20,0,20],
+            "expect" => 140,
+            "msg" => "Should work with 1 blue, 1 red, 1 yellow and 0 green"
+        ),
     );
     
     $totalTest = 0;
