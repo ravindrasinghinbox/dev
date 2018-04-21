@@ -15,36 +15,35 @@ require 'tests/indexTest.php';
 function makeNecklace($blue = 0, $red = 0, $yellow = 0, $green = 0)
 {
     $limit = $blue + $red + $yellow + $green;
-    $count = 0;
     $prev = NULL;
 
     for ($i = 0; $i < $limit; $i++)
     {
-        $index = $i % 4;
-        if (($prev === NULL && $blue) || ($prev == 0 && $blue) || ($prev == 2 && $blue))
+        if ($blue && ($prev === NULL || $prev == 0 || $prev == 2))
         {
             $blue--;
-            draw('blue');
             $prev = 0;
         }
-        elseif (($prev === NULL && $red) || ($prev == 0 && $red) || ($prev == 2 && $red))
+        elseif ($red && ($prev === NULL || $prev == 0 || $prev == 2))
         {
             $red--;
-            draw('red');
             $prev = 1;
         }
-        elseif (($prev === NULL && $green) || ($prev == 1 && $green) || ($prev == 3 && $green))
+        elseif ($green && ($prev === NULL || $prev == 1 || $prev == 3))
         {
             $green--;
-            draw('green');
             $prev = 3;
         }
-        elseif (($prev === NULL && $yellow) || ($prev == 1 && $yellow) || ($prev == 3 && $yellow))
+        elseif ($yellow && ($prev === NULL || $prev == 1 || $prev == 3))
         {
             $yellow--;
-            draw('yellow');
             $prev = 2;
         }
+        else
+        {
+            break;
+        }
+        draw($prev);
     }
     return $limit - ($blue + $red + $yellow + $green);
 }
@@ -55,6 +54,12 @@ function makeNecklace($blue = 0, $red = 0, $yellow = 0, $green = 0)
  */
 function draw($val = '')
 {
-    echo '<span style="display:inline-block;width:25px;height:25px;border-radius:50%;line-height: 24px;text-align:center;background:'.($val=='green'?'limegreen':$val).'">'.substr($val,0,1).'</span>';
+    $colors = array(
+        0 => 'blue',
+        1 => 'red',
+        2 => 'yellow',
+        3 => 'green'
+    );
+    echo '<span style="display:inline-block;width:25px;height:25px;border-radius:50%;line-height: 24px;text-align:center;background:'.($colors[$val]=='green'?'limegreen':$colors[$val]).'">'.substr($colors[$val],0,1).'</span>';
 }
 
