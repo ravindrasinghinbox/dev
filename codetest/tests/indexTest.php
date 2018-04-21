@@ -95,26 +95,26 @@ class Test extends Summary
                 "expect" => 5,
                 "msg" => "Should work with 5 blue, 0 red,  5 yellow, and 5 green"
             ),
-//            array(
-//                "input" => [0, 0, 5, 5],
-//                "expect" => 6,
-//                "msg" => "Should work with 0 blue, 0 red,  5 yellow, and 5 green"
-//            ),
-//            array(
-//                "input" => [5, 0, 0, 5],
-//                "expect" => 10,
-//                "msg" => "Should work with 5 blue, 0 red,  0 yellow, and 5 green"
-//            ),
-//            array(
-//                "input" => [0, 2000, 2000, 2000],
-//                "expect" => 6000,
-//                "msg" => "Should work with 0 blue, 2000 red, 2000 yellow and 2000 green"
-//            ),
-//            array(
-//                "input" => [100, 20, 0, 20],
-//                "expect" => 140,
-//                "msg" => "Should work with 100 blue, 20 red, 0 yellow and 20 green"
-//            ),
+            array(
+                "input" => [0, 0, 5, 5],
+                "expect" => 6,
+                "msg" => "Should work with 0 blue, 0 red,  5 yellow, and 5 green"
+            ),
+            array(
+                "input" => [5, 0, 0, 5],
+                "expect" => 5,
+                "msg" => "Should work with 5 blue, 0 red,  0 yellow, and 5 green"
+            ),
+            array(
+                "input" => [0, 2000, 2000, 2000],
+                "expect" => 6000,
+                "msg" => "Should work with 0 blue, 2000 red, 2000 yellow and 2000 green"
+            ),
+            array(
+                "input" => [100, 20, 0, 20],
+                "expect" => 121,
+                "msg" => "Should work with 100 blue, 20 red, 0 yellow and 20 green"
+            ),
         );
     }
 
