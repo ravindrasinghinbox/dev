@@ -17,7 +17,7 @@ function makeNecklace($blue = 0, $red = 0, $yellow = 0, $green = 0)
     $limit = $blue + $red + $yellow + $green;
     $prev = NULL;
 
-    for ($i = 0; $i < $limit; $i++)
+    while (TRUE)
     {
         if ($blue && ($prev === NULL || $prev == 0 || $prev == 2))
         {
