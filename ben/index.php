@@ -11,15 +11,27 @@
  * @return int minimum cost for game
  */
 function gameCost($levelAndWeapon, $lines = array()) {
+//    $handle = fopen ("php://stdin","r");
+//    $levelAndWeapon = trim(fgets($handle));
+//    
+//    //Extract type and weapon
+//    $levelAndWeapon = explode(' ',$levelAndWeapon);
+//    $level = $levelAndWeapon[0];
+//    $weapon = $levelAndWeapon[1];
+//    
+//    // Unset unuse variable
+//    unset($levelAndWeapon);
+//    $lines = [];
+//
+//    while (($buffer = trim(fgets($handle, 4096))) !== false) {
+//            $lines[] = $buffer;
+//            if(count($lines) >= $level) break;
+//    }
+        
     // Sort element
     sort($lines);
-    // Extract type and weapon
-    $levelAndWeapon = explode(' ', $levelAndWeapon);
-    $level = $levelAndWeapon[0];
-    $weapon = $levelAndWeapon[1];
-    // Unset unuse variable
-    unset($levelAndWeapon);
-
+    
+    // Count minumum coins
     $coins = 0;
     foreach ($lines as $key => $value) {
         $num = substr_count($value, '1');
