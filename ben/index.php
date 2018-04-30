@@ -23,9 +23,9 @@ function gameCost($levelAndWeapon, $lines) {
     unset($levelAndWeapon);
 //    $lines = [];
 //
-//    while (($buffer = trim(fgets($fp, 4096))) !== false) {
+//    while ($buffer = trim(fgets($fp, 4096))) {
 //            $lines[] = $buffer;
-//            if(count($lines) >= $level) break;
+//            if(count($lines) > $level) break;
 //    }
         
     // Sort element

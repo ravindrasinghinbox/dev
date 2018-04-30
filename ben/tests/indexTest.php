@@ -48,7 +48,7 @@ class Test extends Summary
                     'lines' => ['01','11']
                 ],
                 "expect" => 2,
-                "msg" => "Should work with 3 level and 6 type of weapon"
+                "msg" => "Should work with 1 level and 2 type of weapon"
             ),
         );
     }
