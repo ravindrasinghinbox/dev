@@ -13,7 +13,7 @@ class Test extends Summary
             array(
                 "input" => [
                     'levelAndWeapon' => '3 3',
-                    'lines' => ['111', '101', '010']
+                    'lines' => ['111', '001', '010']
                 ],
                 "expect" => 3,
                 "msg" => "Should work with 3 level and 3 type of weapon"
@@ -25,6 +25,22 @@ class Test extends Summary
                 ],
                 "expect" => 4,
                 "msg" => "Should work with 1 level and 2 type of weapon"
+            ),
+            array(
+                "input" => [
+                    'levelAndWeapon' => '3 6',
+                    'lines' => ['010101','010101','010101']
+                ],
+                "expect" => 9,
+                "msg" => "Should work with 3 level and 6 type of weapon"
+            ),
+            array(
+                "input" => [
+                    'levelAndWeapon' => '3 6',
+                    'lines' => ['010101','010001','010101']
+                ],
+                "expect" => 5,
+                "msg" => "Should work with 3 level and 5 type of weapon"
             ),
         );
     }

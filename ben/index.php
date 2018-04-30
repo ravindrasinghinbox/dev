@@ -18,9 +18,9 @@ function gameCost($levelAndWeapon, $lines) {
     $levelAndWeapon = explode(' ',$levelAndWeapon);
     $level = $levelAndWeapon[0];
     $weapon = $levelAndWeapon[1];
-//    
-//    // Unset unuse variable
-//    unset($levelAndWeapon);
+    
+    // Unset unuse variable
+    unset($levelAndWeapon);
 //    $lines = [];
 //
 //    while (($buffer = trim(fgets($handle, 4096))) !== false) {
@@ -30,14 +30,25 @@ function gameCost($levelAndWeapon, $lines) {
         
     // Sort element
     sort($lines);
+
+    // Remove used weapon
+    for($i = 0; $i < $weapon; $i++){
+        $col = 0;
+        for($j = 0; $j < $level; $j++){
+            if(!$col){
+                $col = $lines[$j][$i];
+            }
+            else{
+                $lines[$j][$i] = 0;
+            }
+        }
+    }
     
-    // Count minumum coins
+    // Count coins for game
     $coins = 0;
-    foreach ($lines as $key => $value) {
-        $num = substr_count($value, '1');
-        $coins += $coins?$num:($num*$num);
-        if ($coins + $num > $level)
-            break;
+    for($i = 0; $i < $level; $i++){
+        $num = substr_count($lines[$i],'1');
+        $coins += $num*$num;
     }
     return $coins;
 }

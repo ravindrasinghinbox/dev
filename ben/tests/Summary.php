@@ -42,7 +42,7 @@ class Summary{
         {
             $output = '<table width="500" border="1" cellpadding="1" cellspacing="1">'
                     . '<thead>'
-                        . '<tr><th colspan="2" style="background:red;color:yellow;">'.$data['msg'].'</th></tr>'
+                        . '<tr><th colspan="2" style="background:'.($testStatus?'limegreen':'red').';color:yellow;">'.$data['msg'].'</th></tr>'
                     . '</thead>'
                     . '<tbody>'
                         . '<tr><td>Id</td><td>'.$data['id'].'</td></tr>'
