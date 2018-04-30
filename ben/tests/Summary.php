@@ -26,16 +26,19 @@ class Summary{
         $this->memory = intval((memory_get_peak_usage(TRUE) - $this->memory)/$this->memoryUnits[$this->memoryUnit]);
     }
     
-    public function report($data = array())
+    public function report($data = array(),$report = FALSE)
     {
         $this->endProfile();
         $this->totalTest++;
+        $testStatus = FALSE;
         if($data['expect'] === $data['output'])
         {
             $this->passedTest++;
-            echo '<br/><br/>';
+            $testStatus = TRUE;
+            echo '<br/>';
         }
-        else
+        
+        if($report || !$testStatus)
         {
             $output = '<table width="500" border="1" cellpadding="1" cellspacing="1">'
                     . '<thead>'
@@ -45,8 +48,8 @@ class Summary{
                         . '<tr><td>Id</td><td>'.$data['id'].'</td></tr>'
                         . '<tr><td>Time</td><td>'.$this->time.' ('.$this->timeUnit.')</td></tr>'
                         . '<tr><td>Memory</td><td>'.$this->memory.' ('.$this->memoryUnit.')</td></tr>'
-                        . '<tr><td>Expected ('.$data['expect'].')</td><td style="color:red;">'.$data['output'].'</td></tr>'
-                        . '<tr><td>Status </td><td style="color:red;">Failed</td></tr>'
+                        . '<tr><td>Expected ('.$data['expect'].')</td><td style="color:'.($testStatus?'black':'red').';">'.$data['output'].'</td></tr>'
+                        . '<tr><td>Status </td><td style="color:'.($testStatus?'black':'red').';">'.($testStatus?'Passed':'Failed').'</td></tr>'
                     . '</tbody>'
                     . '</table>';
             echo $output;
