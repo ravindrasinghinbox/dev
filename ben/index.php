@@ -11,8 +11,8 @@ require 'tests/indexTest.php';
  * @return int minimum cost for game
  */
 function gameCost($levelAndWeapon, $lines) {
-//    $handle = fopen ("php://stdin","r");
-//    $levelAndWeapon = trim(fgets($handle));
+//    $fp = fopen ("php://stdin","r");
+//    $levelAndWeapon = trim(fgets($fp));
 //    
     //Extract type and weapon
     $levelAndWeapon = explode(' ',$levelAndWeapon);
@@ -23,7 +23,7 @@ function gameCost($levelAndWeapon, $lines) {
     unset($levelAndWeapon);
 //    $lines = [];
 //
-//    while (($buffer = trim(fgets($handle, 4096))) !== false) {
+//    while (($buffer = trim(fgets($fp, 4096))) !== false) {
 //            $lines[] = $buffer;
 //            if(count($lines) >= $level) break;
 //    }
