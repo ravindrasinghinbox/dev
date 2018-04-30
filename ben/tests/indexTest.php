@@ -40,7 +40,15 @@ class Test extends Summary
                     'lines' => ['010101','010001','010101']
                 ],
                 "expect" => 5,
-                "msg" => "Should work with 3 level and 5 type of weapon"
+                "msg" => "Should work with 3 level and 6 type of weapon"
+            ),
+            array(
+                "input" => [
+                    'levelAndWeapon' => '1 2',
+                    'lines' => ['01','11']
+                ],
+                "expect" => 2,
+                "msg" => "Should work with 3 level and 6 type of weapon"
             ),
         );
     }

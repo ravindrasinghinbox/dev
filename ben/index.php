@@ -30,11 +30,12 @@ function gameCost($levelAndWeapon, $lines) {
         
     // Sort element
     sort($lines);
+    $lineLength = count($lines);
 
     // Remove used weapon
     for($i = 0; $i < $weapon; $i++){
         $col = 0;
-        for($j = 0; $j < $level; $j++){
+        for($j = 0; $j < $lineLength; $j++){
             if(!$col){
                 $col = $lines[$j][$i];
             }
@@ -46,7 +47,7 @@ function gameCost($levelAndWeapon, $lines) {
     
     // Count coins for game
     $coins = 0;
-    for($i = 0; $i < $level; $i++){
+    for($i = 0; $i < $lineLength; $i++){
         $num = substr_count($lines[$i],'1');
         $coins += $num*$num;
     }
