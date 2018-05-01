@@ -68,10 +68,9 @@ class Summary{
         {
             $output = '<table width="500" border="1" cellpadding="1" cellspacing="1">'
                     . '<thead>'
-                        . '<tr><th colspan="2" style="background:'.($testStatus?'limegreen':'red').';color:yellow;">'.$data['msg'].'</th></tr>'
+                        . '<tr><th title="'.print_r($data['input'],true).'" colspan="2" style="background:'.($testStatus?'limegreen':'red').';color:yellow;"><span style="float:left">#'.$data['id'].'</span>'.$data['msg'].'</th></tr>'
                     . '</thead>'
                     . '<tbody>'
-                        . '<tr><td>Id</td><td>'.$data['id'].'</td></tr>'
                         . '<tr><td>Time</td><td>'.$this->time.' ('.$this->timeUnit.')</td></tr>'
                         . '<tr><td>Memory</td><td>'.$this->memory.' ('.$this->memoryUnit.')</td></tr>'
                         . '<tr><td>Expected ('.$data['expect'].')</td><td style="color:'.($testStatus?'black':'red').';">'.$data['output'].'</td></tr>'
