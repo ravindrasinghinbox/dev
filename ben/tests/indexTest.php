@@ -10,52 +10,60 @@ class Test extends Summary
         parent::__construct();
         
         $this->testCase = array(
-//            array(
-//                "input" => [
-//                    'levelAndWeapon' => '3 3',
-//                    'lines' => ['111', '001', '010']
-//                ],
-//                "expect" => 3,
-//                "msg" => "Should work with 3 level and 3 type of weapon"
-//            ),
-//            array(
-//                "input" => [
-//                    'levelAndWeapon' => '1 4',
-//                    'lines' => ['0101']
-//                ],
-//                "expect" => 4,
-//                "msg" => "Should work with 1 level and 2 type of weapon"
-//            ),
-//            array(
-//                "input" => [
-//                    'levelAndWeapon' => '3 6',
-//                    'lines' => ['010101','010101','010101']
-//                ],
-//                "expect" => 9,
-//                "msg" => "Should work with 3 level and 6 type of weapon"
-//            ),
-//            array(
-//                "input" => [
-//                    'levelAndWeapon' => '3 6',
-//                    'lines' => ['010101','010001','010101']
-//                ],
-//                "expect" => 5,
-//                "msg" => "Should work with 3 level and 6 type of weapon"
-//            ),
-//            array(
-//                "input" => [
-//                    'levelAndWeapon' => '1 2',
-//                    'lines' => ['01','11']
-//                ],
-//                "expect" => 2,
-//                "msg" => "Should work with 1 level and 2 type of weapon"
-//            ),
             array(
                 "input" => [
-                    'levelAndWeapon' => '3 1',
-                    'lines' => ['1','1','1']
+                    'levelAndWeapon' => '3 3',
+                    'lines' => ['111', '001', '010']
                 ],
-                "expect" => 1,
+                "expect" => 3,
+                "msg" => "Should work with 3 level and 3 type of weapon"
+            ),
+            array(
+                "input" => [
+                    'levelAndWeapon' => '1 4',
+                    'lines' => ['0101']
+                ],
+                "expect" => 4,
+                "msg" => "Should work with 1 level and 2 type of weapon"
+            ),
+            array(
+                "input" => [
+                    'levelAndWeapon' => '3 6',
+                    'lines' => ['010101','010101','010101']
+                ],
+                "expect" => 9,
+                "msg" => "Should work with 3 level and 6 type of weapon"
+            ),
+            array(
+                "input" => [
+                    'levelAndWeapon' => '3 6',
+                    'lines' => ['010101','010001','010101']
+                ],
+                "expect" => 5,
+                "msg" => "Should work with 3 level and 6 type of weapon"
+            ),
+            array(
+                "input" => [
+                    'levelAndWeapon' => '1 2',
+                    'lines' => ['01','11']
+                ],
+                "expect" => 2,
+                "msg" => "Should work with 1 level and 2 type of weapon"
+            ),
+            array(
+                "input" => [
+                    'levelAndWeapon' => '3 3',
+                    'lines' => ['111', '110', '100','101','011','110','010','001','011','101']
+                ],
+                "expect" => 3,
+                "msg" => "Should work with 1 level and 1 type of weapon"
+            ),
+            array(
+                "input" => [
+                    'levelAndWeapon' => '3 3',
+                    'lines' => ['111', '110', '100','101','011','110','010','001','011','101']
+                ],
+                "expect" => 3,
                 "msg" => "Should work with 1 level and 1 type of weapon"
             ),
         );
@@ -78,7 +86,7 @@ class Test extends Summary
     sort($tests);*/
         foreach ($this->testCase as $key => $value)
         {
-            parent::__construct();
+            $this->test();
             $value['output'] = call_user_func("gameCost",$value['input']['levelAndWeapon'],$value['input']['lines']);
             $value['id'] = $key + 1;
             $this->report($value,true);
