@@ -61,9 +61,9 @@ class Test extends Summary
             array(
                 "input" => [
                     'levelAndWeapon' => '1 4',
-                    'lines' => ['1110', '0000']
+                    'lines' => ['1111', '0010','0010','1001']
                 ],
-                "expect" => 3,
+                "expect" => 6,
                 "msg" => "Should work with 1 level and 1 type of weapon"
             ),
         );

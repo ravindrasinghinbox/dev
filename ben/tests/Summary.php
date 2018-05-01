@@ -7,7 +7,7 @@ class Summary{
     var $passedTest;
     var $timeUnit = 'Sec';
     var $memory;
-    var $memoryUnit = 'BYTE';
+    var $memoryUnit = 'KB';
     var $memoryUnits = array(
         "BYTE" => 1,
         "KB" => 1024,
