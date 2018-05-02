@@ -30,8 +30,41 @@ function gameCost($levelAndWeapon, $lines) {
         
     // Sort element
     sort($lines);
-    $lineLength = count($lines);
     
+    // Reorder according closest
+    $lineLength = count($lines);
+    $map = [];
+    
+    for($i = 0; $i < $lineLength -1; $i++) {
+        $map[$i] = NULL;
+        for($j = $i+1; $j < $lineLength; $j++) {
+            $scope = getScope($lines[$i], $lines[$j],$i,$j);
+            if($scope !== NULL)  $map[$i] = $scope;
+        }
+    }
+
+    $elems = [];
+    foreach($map as $key => $value) {
+        if($value)
+        {
+            $temp = $lines[$key];
+            $lines[$key] = $lines[$value];
+            $lines[$value] = $temp; 
+        }
+        else
+        {
+            $lines[] = $lines[$key];
+            $elems[] = $key;
+        }
+    }
+    
+    if(is_array($elems))
+    {
+        
+        foreach($elems as $key => $value) {
+            array_splice($lines, $value,1);
+        }
+    }
     // Remove used weapon
     for($i = 0; $i < $weapon; $i++){
         $col = 0;
@@ -52,4 +85,21 @@ function gameCost($levelAndWeapon, $lines) {
         $coins += $num*$num;
     }
     return $coins;
+}
+
+/**
+* Return percent of scope
+* 
+* @param type $a
+* @param type $b
+* @return type
+*/
+function getScope($a, $b,$i,$j) {
+   $aCount = substr_count($a, '1');
+   $bCount = substr_count($b, '1');
+
+   if($aCount == $bCount) {
+       $output = (strpos($a, '1') < strpos($b, '1'))?$i:$j;
+       return $output;
+   }
 }
