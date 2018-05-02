@@ -10,22 +10,22 @@ class Test extends Summary
         parent::__construct();
         
         $this->testCase = array(
-            array(
-                "input" => [
-                    'levelAndWeapon' => '3 3',
-                    'lines' => ['111', '001', '010']
-                ],
-                "expect" => 3,
-                "msg" => "Should work with 3 level and 3 type of weapon"
-            ),
-            array(
-                "input" => [
-                    'levelAndWeapon' => '1 4',
-                    'lines' => ['0101']
-                ],
-                "expect" => 4,
-                "msg" => "Should work with 1 level and 2 type of weapon"
-            ),
+//            array(
+//                "input" => [
+//                    'levelAndWeapon' => '3 3',
+//                    'lines' => ['111', '001', '010']
+//                ],
+//                "expect" => 3,
+//                "msg" => "Should work with 3 level and 3 type of weapon"
+//            ),
+//            array(
+//                "input" => [
+//                    'levelAndWeapon' => '1 4',
+//                    'lines' => ['0101']
+//                ],
+//                "expect" => 4,
+//                "msg" => "Should work with 1 level and 2 type of weapon"
+//            ),
             array(
                 "input" => [
                     'levelAndWeapon' => '4 7',
@@ -34,14 +34,14 @@ class Test extends Summary
                 "expect" => 6,
                 "msg" => "Should work with 4 level and 7 type of weapon"
             ),
-            array(
-                "input" => [
-                    'levelAndWeapon' => '4 4',
-                    'lines' => ['1111', '0000','0100','1001']
-                ],
-                "expect" => 6,
-                "msg" => "Should work with 4 level and 4 type of weapon"
-            ),
+//            array(
+//                "input" => [
+//                    'levelAndWeapon' => '4 4',
+//                    'lines' => ['1111', '0000','0100','1001']
+//                ],
+//                "expect" => 6,
+//                "msg" => "Should work with 4 level and 4 type of weapon"
+//            ),
         );
     }
 

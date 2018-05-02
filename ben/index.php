@@ -51,20 +51,9 @@ function gameCost($levelAndWeapon, $lines) {
             $lines[$key] = $lines[$value];
             $lines[$value] = $temp; 
         }
-        else
-        {
-            $lines[] = $lines[$key];
-            $elems[] = $key;
-        }
     }
     
-    if(is_array($elems))
-    {
-        
-        foreach($elems as $key => $value) {
-            array_splice($lines, $value,1);
-        }
-    }
+    echo '<pre>'; var_dump($lines,$map); die('</pre>');
     // Remove used weapon
     for($i = 0; $i < $weapon; $i++){
         $col = 0;
