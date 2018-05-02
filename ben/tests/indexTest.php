@@ -28,43 +28,35 @@ class Test extends Summary
 //            ),
 //            array(
 //                "input" => [
-//                    'levelAndWeapon' => '3 6',
-//                    'lines' => ['010101','010101','010101']
+//                    'levelAndWeapon' => '4 7',
+//                    'lines' => ['1100000', '1101000','0001001','1100001']
 //                ],
-//                "expect" => 9,
-//                "msg" => "Should work with 3 level and 6 type of weapon"
+//                "expect" => 6,
+//                "msg" => "Should work with 4 level and 7 type of weapon"
 //            ),
 //            array(
 //                "input" => [
-//                    'levelAndWeapon' => '3 6',
-//                    'lines' => ['010101','010001','010101']
+//                    'levelAndWeapon' => '4 4',
+//                    'lines' => ['1111', '0000','0100','1001']
 //                ],
-//                "expect" => 5,
-//                "msg" => "Should work with 3 level and 6 type of weapon"
+//                "expect" => 6,
+//                "msg" => "Should work with 4 level and 4 type of weapon"
 //            ),
 //            array(
 //                "input" => [
-//                    'levelAndWeapon' => '1 2',
-//                    'lines' => ['01','11']
+//                    'levelAndWeapon' => '4 7',
+//                    'lines' => ['0001001', '0001101','1001001','1100000']
 //                ],
-//                "expect" => 2,
-//                "msg" => "Should work with 1 level and 2 type of weapon"
-//            ),
-//            array(
-//                "input" => [
-//                    'levelAndWeapon' => '3 3',
-//                    'lines' => ['111', '110', '100','101','011','110','010','001','011','101']
-//                ],
-//                "expect" => 3,
-//                "msg" => "Should work with 1 level and 1 type of weapon"
+//                "expect" => 7,
+//                "msg" => "Should work with 4 level and 4 type of weapon"
 //            ),
             array(
                 "input" => [
-                    'levelAndWeapon' => '1 4',
-                    'lines' => ['1111', '0010','0010','1001']
+                    'levelAndWeapon' => '4 4',
+                    'lines' => ['0011', '1100','1110','1111']
                 ],
                 "expect" => 6,
-                "msg" => "Should work with 1 level and 1 type of weapon"
+                "msg" => "Should work with 4 level and 4 type of weapon"
             ),
         );
     }
