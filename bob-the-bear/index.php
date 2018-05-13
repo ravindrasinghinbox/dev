@@ -22,45 +22,43 @@ function findMaximumFishes($input = array()){
     
     for($i = 0; $i < $uniqueTimesLen; $i++){
         for($j = 0; $j < $timesLen; $j++){
-            if($uniqueTimes[$i] == $times[$j]){
-                // echo ($j+1).',';
-                $fishCollection[$uniqueTimes[$i]][] = $j+1;
-            }
-            else if($uniqueTimes[$i] < $lens[$j]+$times[$j] && $uniqueTimes[$i] > $times[$j]){
-                // echo ($j+1).',';
+            if($uniqueTimes[$i] == $times[$j] 
+            || ($uniqueTimes[$i] < $lens[$j]+$times[$j] && $uniqueTimes[$i] > $times[$j])){
+                
                 $fishCollection[$uniqueTimes[$i]][] = $j+1;
             }
         }
     }
-    return catchFishes($fishCollection);
+    $fishCollectionMap = array();
+    foreach ($fishCollection as $key => $value) {
+        $fishCollectionMap[count($value)] = $value;
+    }
+
+    $fishCollectionMapUnique = array();
+    foreach ($fishCollectionMap as $key => $value) {
+        $status = FALSE;
+        foreach ($fishCollectionMap as $key1 => $value1) {
+            if($key != $key1){
+                $status = array_intersect($value,$value1);
+            }
+        }
+        if(!$status){
+            $fishCollectionMapUnique[$key] = count($value);
+        }
+        else{
+            $fishCollectionMap[$key] = array();
+        }
+    }
+    return catchFishes($fishCollectionMapUnique);
 }
 function catchFishes($arr = array())
 {
-    $map = array();
-
-    foreach ($arr as $key => $value) {
-        // $map[$key][] = count($value);
-        $map[$key][count($value)] = count($value);
-
-        foreach ($arr as $key1 => $value1) {
-            $status = array_intersect($value,$value1);
-            if(!$status){
-                // $map[$key][] = count($value1);
-                $map[$key][count($value1)] = count($value1);
-            }
-        }
-        rsort($map[$key]);
-    }
+    $map = $arr;
+    rsort($map);
     $maximum = 0;
-    foreach ($map as $key => $value) {
-        $temp = $value[0];
-        if(isset($value[1]))
-        {
-            $temp +=$value[1];
-        }
-        if($temp > $maximum)
-        {
-            $maximum = $temp;
+    for($i = 0; $i < count($map); $i++){
+        if($i < 2){
+            $maximum += $map[$i];
         }
     }
     return $maximum;
