@@ -29,40 +29,24 @@ function findMaximumFishes($input = array()){
             }
         }
     }
-    $fishCollectionMap = array();
+    $fishCollectionCount = array();
     foreach ($fishCollection as $key => $value) {
-        $fishCollectionMap[count($value)] = $value;
-    }
+        
+        $fishCollectionCount[$key] = count($value);
+        foreach ($fishCollection as $key1 => $value1) {
 
-    $fishCollectionMapUnique = array();
-    foreach ($fishCollectionMap as $key => $value) {
-        $status = array();
-        foreach ($fishCollectionMap as $key1 => $value1) {
-            
-            if($key != $key1 && count($value) <= count($value1)){
-                $status = array_intersect($value,$value1);
+            $intersect = array_intersect($value,$value1);
+            if(empty($intersect))
+            {
+                $matchCount = count($value)+count($value1);
+                if($fishCollectionCount[$key] < $matchCount)
+                {
+                    $fishCollectionCount[$key] = $matchCount;
+                }
             }
         }
-        if(!count($status)){
-            $fishCollectionMapUnique[$key] = count($value);
-        }
-        else{
-            $fishCollectionMap[$key] = array();
-        }
     }
-    return catchFishes($fishCollectionMapUnique);
-}
-function catchFishes($arr = array())
-{
-    $map = $arr;
-    rsort($map);
-    $maximum = 0;
-    for($i = 0; $i < count($map); $i++){
-        if($i < 2){
-            $maximum += $map[$i];
-        }
-    }
-    return $maximum;
+    return max($fishCollectionCount);
 }
 
 function draw($input = array()){
