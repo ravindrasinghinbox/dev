@@ -36,13 +36,14 @@ function findMaximumFishes($input = array()){
 
     $fishCollectionMapUnique = array();
     foreach ($fishCollectionMap as $key => $value) {
-        $status = FALSE;
+        $status = array();
         foreach ($fishCollectionMap as $key1 => $value1) {
-            if($key != $key1){
+            
+            if($key != $key1 && count($value) <= count($value1)){
                 $status = array_intersect($value,$value1);
             }
         }
-        if(!$status){
+        if(!count($status)){
             $fishCollectionMapUnique[$key] = count($value);
         }
         else{
