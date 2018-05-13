@@ -37,11 +37,21 @@ class Test extends Summary
                 "expect" => 5,
                 "msg" => "Should catch 1 and 3 at time = 2 and will catch 2, 4 and 5 at time = 7"
             ),
+            array(
+                "input" => [
+                    'size' => '10',
+                    'len' => '1 1 1 5 1 1 1 1 1 5',
+                    'time' => '1 2 3 4 5 6 7 8 9 10'
+                ],
+                "expect" => 3,
+                "msg" => "Should catch 2 at time = 6 and 1 at anytime"
+            ),
         );
     }
 
     public function run()
     {
+        
         foreach ($this->testCase as $key => $value)
         {
             $this->test();

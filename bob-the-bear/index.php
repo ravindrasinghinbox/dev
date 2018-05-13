@@ -39,12 +39,14 @@ function catchFishes($arr = array())
     $map = array();
 
     foreach ($arr as $key => $value) {
-        $map[$key][] = count($value);
+        // $map[$key][] = count($value);
+        $map[$key][count($value)] = count($value);
 
         foreach ($arr as $key1 => $value1) {
             $status = array_intersect($value,$value1);
             if(!$status){
-                $map[$key][] = count($value1);
+                // $map[$key][] = count($value1);
+                $map[$key][count($value1)] = count($value1);
             }
         }
         rsort($map[$key]);
@@ -65,7 +67,8 @@ function catchFishes($arr = array())
 }
 
 function draw($input = array()){
-    $html = '<table  border="1" style="transform: rotateY(180deg);" cellpadding="5" cellspacing="1"><tbody>';
+    
+    $html = '<div style="overflow:auto"><table  border="1" style="transform: rotateY(180deg);" cellpadding="5" cellspacing="1"><tbody>';
     for($i = 0; $i < count($input['len']); $i++)
     {
         $html .= '<tr>';
@@ -74,6 +77,6 @@ function draw($input = array()){
         $html .= '</tr>';
     }
     $html.= '</tbody>
-    </table>';
+    </table></div>';
     echo $html;
 }
