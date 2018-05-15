@@ -22,30 +22,31 @@ function findMaximumFishes($input = array()){
     
     for($i = 0; $i < $uniqueTimesLen; $i++){
         for($j = 0; $j < $timesLen; $j++){
-            if($uniqueTimes[$i] == $times[$j] 
-            || ($uniqueTimes[$i] < $lens[$j]+$times[$j] && $uniqueTimes[$i] > $times[$j])){
+            // Find fish which are in first,last and middle.
+            if(($uniqueTimes[$i] == $times[$j]) 
+            || ($uniqueTimes[$i] < $lens[$j]+$times[$j] && $uniqueTimes[$i] > $times[$j])
+            || ($uniqueTimes[$i] == $lens[$j]+$times[$j] || $uniqueTimes[$i] == $times[$j])
+            ){
                 
                 $fishCollection[$uniqueTimes[$i]][] = $j+1;
             }
         }
     }
+    
     $fishCollectionCount = array();
     foreach ($fishCollection as $key => $value) {
         
         $fishCollectionCount[$key] = count($value);
         foreach ($fishCollection as $key1 => $value1) {
 
-            $intersect = array_intersect($value,$value1);
-            if(empty($intersect))
+            $matchCount = count(array_unique(array_merge($value,$value1)));
+            if($fishCollectionCount[$key] < $matchCount)
             {
-                $matchCount = count($value)+count($value1);
-                if($fishCollectionCount[$key] < $matchCount)
-                {
-                    $fishCollectionCount[$key] = $matchCount;
-                }
+                $fishCollectionCount[$key] = $matchCount;
             }
         }
     }
+
     return max($fishCollectionCount);
 }
 
