@@ -1,53 +1,39 @@
-<pre>
-    <?php
-    
-    $input = array("red", "green", "blue", "yellow");
-array_splice($input, 1, 1);
-echo '<pre>'; var_dump($input); die('</pre>');
-// $input is now array("red", "yellow")
-// 
-//$a =['1100000', '1101000','0001001','1100001'];
-//$a =['1111', '0000','0100','1001'];
-//$list =['0001001', '0001101','1001001','1100000'];
-//$list =['0001101', '0001111','1001001','1100001'];
-    $list = ['0001001', '0001101', '1001001', '1100000'];
-
-
-    sort($list);
-    $len = count($list);
-    $map = [];
-
-    for($i = 0; $i < $len -1; $i++) {
-        $map[$i] = NULL;
-        for($j = $i+1; $j < $len; $j++) {
-            $scope = getScope($list[$i], $list[$j],$i,$j);
-            if($scope !== NULL)  $map[$i] = $scope;
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Quick php debug</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        textarea{
+            width:100%;
+            min-height:350px;
+            background: #efefef;
         }
-    }
-
-    foreach($map as $key => $value) {
-        if($value)
-        {
-            $temp = $list[$key];
-            $list[$key] = $list[$value];
-            $list[$value] = $temp; 
+    </style>
+    <script>
+        function loadPage(){
+            window.location.reload();
         }
-    }
-    
-    /**
-     * Return percent of scope
-     * 
-     * @param type $a
-     * @param type $b
-     * @return type
-     */
-    function getScope($a, $b,$i,$j) {
-        $aCount = substr_count($a, '1');
-        $bCount = substr_count($b, '1');
-
-        if($aCount == $bCount) {
-            $output = (strpos($a, '1') < strpos($b, '1'))?$i:$j;
-            return $output;
-        }
-    }
-    ?>
+    </script>
+</head>
+<?php
+$output = NULL;
+$code = isset($_POST['code'])?trim($_POST['code']):'';
+?>
+<body>
+    <form action="" method="post">
+    <textarea autofocus="true"  name="code" placeholder="Enter you code here"><?=$code;?></textarea>
+    <button style="float:right;" type="submit" onfocus="this.form.submit()">Validate</button>
+    </form>
+    <pre>
+<?php
+if($code)
+{
+    eval($_POST['code']); 
+}
+?>
+    </pre>
+</body>
+</html>
