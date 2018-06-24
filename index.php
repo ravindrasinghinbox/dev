@@ -1,53 +1,82 @@
-<pre>
-    <?php
-    
-    $input = array("red", "green", "blue", "yellow");
-array_splice($input, 1, 1);
-echo '<pre>'; var_dump($input); die('</pre>');
-// $input is now array("red", "yellow")
-// 
-//$a =['1100000', '1101000','0001001','1100001'];
-//$a =['1111', '0000','0100','1001'];
-//$list =['0001001', '0001101','1001001','1100000'];
-//$list =['0001101', '0001111','1001001','1100001'];
-    $list = ['0001001', '0001101', '1001001', '1100000'];
+<?php
 
+class Point2D {
 
-    sort($list);
-    $len = count($list);
-    $map = [];
+    public $x;
+    public $y;
 
-    for($i = 0; $i < $len -1; $i++) {
-        $map[$i] = NULL;
-        for($j = $i+1; $j < $len; $j++) {
-            $scope = getScope($list[$i], $list[$j],$i,$j);
-            if($scope !== NULL)  $map[$i] = $scope;
-        }
+    function __construct($x, $y) {
+        $this->x = $x;
+        $this->y = $y;
     }
 
-    foreach($map as $key => $value) {
-        if($value)
-        {
-            $temp = $list[$key];
-            $list[$key] = $list[$value];
-            $list[$value] = $temp; 
-        }
+    function x() {
+        return $this->x;
     }
-    
-    /**
-     * Return percent of scope
-     * 
-     * @param type $a
-     * @param type $b
-     * @return type
-     */
-    function getScope($a, $b,$i,$j) {
-        $aCount = substr_count($a, '1');
-        $bCount = substr_count($b, '1');
 
-        if($aCount == $bCount) {
-            $output = (strpos($a, '1') < strpos($b, '1'))?$i:$j;
-            return $output;
-        }
+    function y() {
+        return $this->y;
     }
-    ?>
+
+}
+
+class Point {
+
+    protected $vertices;
+
+    function __construct($vertices) {
+
+        $this->vertices = $vertices;
+    }
+
+    //Determines if the specified point is within the polygon. 
+    function pointInPolygon($point) {
+        /* @var $point Point2D */
+        $poly_vertices = $this->vertices;
+        $num_of_vertices = count($poly_vertices);
+
+        $edge_error = 1.192092896e-07;
+        $r = false;
+
+        for ($i = 0, $j = $num_of_vertices - 1; $i < $num_of_vertices; $j = $i++) {
+            /* @var $current_vertex_i Point2D */
+            /* @var $current_vertex_j Point2D */
+            $current_vertex_i = $poly_vertices[$i];
+            $current_vertex_j = $poly_vertices[$j];
+
+            if (abs($current_vertex_i->y - $current_vertex_j->y) <= $edge_error && abs($current_vertex_j->y - $point->y) <= $edge_error && ($current_vertex_i->x >= $point->x) != ($current_vertex_j->x >= $point->x)) {
+                return true;
+            }
+
+            if ($current_vertex_i->y > $point->y != $current_vertex_j->y > $point->y) {
+                $c = ($current_vertex_j->x - $current_vertex_i->x) * ($point->y - $current_vertex_i->y) / ($current_vertex_j->y - $current_vertex_i->y) + $current_vertex_i->x;
+
+                if (abs($point->x - $c) <= $edge_error) {
+                    return true;
+                }
+
+                if ($point->x < $c) {
+                    $r = !$r;
+                }
+            }
+        }
+
+        return $r;
+    }
+}
+?>
+<?php
+$vertices = array();
+array_push($vertices, new Point2D(25.774, -80.190));
+array_push($vertices, new Point2D(18.466, -66.118));
+array_push($vertices, new Point2D(32.321, -64.757));
+array_push($vertices, new Point2D(25.774, -80.190));
+
+
+$Point = new Point($vertices);
+// $point_to_find = new Point2D(13.103491, 80.128121);
+$point_to_find = new Point2D(25.774, -80.180);
+$isPointInPolygon = $Point->pointInPolygon($point_to_find);
+echo $isPointInPolygon;
+var_dump($isPointInPolygon);
+?>
