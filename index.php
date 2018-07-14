@@ -1,82 +1,44 @@
 <?php
+function pointInPolygon($point = [],$poly_vertices = []) {
+    /* @var $point Point2D */
+    $num_of_vertices = count($poly_vertices);
 
-class Point2D {
+    $edge_error = 1.192092896e-07;
+    $r = false;
 
-    public $x;
-    public $y;
+    for ($i = 0, $j = $num_of_vertices - 1; $i < $num_of_vertices; $j = $i++) {
+        /* @var $current_vertex_i Point2D */
+        /* @var $current_vertex_j Point2D */
+        $current_vertex_i = $poly_vertices[$i];
+        $current_vertex_j = $poly_vertices[$j];
 
-    function __construct($x, $y) {
-        $this->x = $x;
-        $this->y = $y;
-    }
+        if (abs($current_vertex_i[1] - $current_vertex_j[1]) <= $edge_error && abs($current_vertex_j[1] - $point[1]) <= $edge_error && ($current_vertex_i[0] >= $point[0]) != ($current_vertex_j[0] >= $point[0])) {
+            return true;
+        }
 
-    function x() {
-        return $this->x;
-    }
+        if ($current_vertex_i[1] > $point[1] != $current_vertex_j[1] > $point[1]) {
+            $c = ($current_vertex_j[0] - $current_vertex_i[0]) * ($point[1] - $current_vertex_i[1]) / ($current_vertex_j[1] - $current_vertex_i[1]) + $current_vertex_i[0];
 
-    function y() {
-        return $this->y;
-    }
-
-}
-
-class Point {
-
-    protected $vertices;
-
-    function __construct($vertices) {
-
-        $this->vertices = $vertices;
-    }
-
-    //Determines if the specified point is within the polygon. 
-    function pointInPolygon($point) {
-        /* @var $point Point2D */
-        $poly_vertices = $this->vertices;
-        $num_of_vertices = count($poly_vertices);
-
-        $edge_error = 1.192092896e-07;
-        $r = false;
-
-        for ($i = 0, $j = $num_of_vertices - 1; $i < $num_of_vertices; $j = $i++) {
-            /* @var $current_vertex_i Point2D */
-            /* @var $current_vertex_j Point2D */
-            $current_vertex_i = $poly_vertices[$i];
-            $current_vertex_j = $poly_vertices[$j];
-
-            if (abs($current_vertex_i->y - $current_vertex_j->y) <= $edge_error && abs($current_vertex_j->y - $point->y) <= $edge_error && ($current_vertex_i->x >= $point->x) != ($current_vertex_j->x >= $point->x)) {
+            if (abs($point[0] - $c) <= $edge_error) {
                 return true;
             }
 
-            if ($current_vertex_i->y > $point->y != $current_vertex_j->y > $point->y) {
-                $c = ($current_vertex_j->x - $current_vertex_i->x) * ($point->y - $current_vertex_i->y) / ($current_vertex_j->y - $current_vertex_i->y) + $current_vertex_i->x;
-
-                if (abs($point->x - $c) <= $edge_error) {
-                    return true;
-                }
-
-                if ($point->x < $c) {
-                    $r = !$r;
-                }
+            if ($point[0] < $c) {
+                $r = !$r;
             }
         }
-
-        return $r;
     }
+    return $r;
 }
-?>
-<?php
-$vertices = array();
-array_push($vertices, new Point2D(25.774, -80.190));
-array_push($vertices, new Point2D(18.466, -66.118));
-array_push($vertices, new Point2D(32.321, -64.757));
-array_push($vertices, new Point2D(25.774, -80.190));
 
+$vertices = [
+    [25.774, -80.190],
+    [18.466, -66.118],
+    [32.321, -64.757],
+    [25.774, -80.190]
+];
 
-$Point = new Point($vertices);
-// $point_to_find = new Point2D(13.103491, 80.128121);
-$point_to_find = new Point2D(25.774, -80.180);
-$isPointInPolygon = $Point->pointInPolygon($point_to_find);
-echo $isPointInPolygon;
+$point_to_find = array(25.774, -80.181);
+$isPointInPolygon = pointInPolygon($point_to_find, $vertices);
 var_dump($isPointInPolygon);
 ?>
