@@ -22,9 +22,9 @@
             <source src="./sound/default.mp3" type="audio/mpeg"> Your browser does not support the audio element.
         </audio>
     </div>
-
-    <div id="myresult" class="img-zoom-result"></div>
-    <canvas id="canvas" onclick="app.shoot()">
+    <!-- <div id="coordinateX" class="coordinate x"></div>
+    <div id="coordinateY"  class="coordinate y"></div> -->
+    <canvas id="canvas" onclick="app.shoot()" onmousemove="showCoordinate(event)">
         Your browser does not support the HTML5 canvas tag.
     </canvas>
 </body>

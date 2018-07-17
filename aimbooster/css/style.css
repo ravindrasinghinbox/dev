@@ -14,3 +14,18 @@ body,html{
 #hidden{
     display: none;
 }
+.coordinate{
+    position: absolute;
+    border: none;
+    cursor: crosshair;
+}
+.coordinate.x{
+    width: 100%;
+    border-bottom: 1px dashed white;
+    top: 50%;  
+}
+.coordinate.y{
+    border-left: 1px dashed white;
+    left: 50%;    
+    height: 100%;
+}
