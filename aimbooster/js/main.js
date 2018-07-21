@@ -16,6 +16,7 @@ function App(config) {
         updateIntervalStatus: undefined,
     }, config);
     $canvas = document.getElementById(_this.config.canvasId);
+    $canvas.ctx = $canvas.getContext("2d");
     $img = document.getElementById(_this.config.imgId);
     $zombie = document.getElementById(_this.config.zombieId);
     $zombie.buffer = 7;
@@ -33,7 +34,7 @@ function App(config) {
         setViewport();
         drawBackground();
         addZombie();
-        // drawZombie();
+        drawZombie();
 
         if (_this.config.updateIntervalStatus == undefined) {
             _this.config.updateIntervalStatus = setInterval(function () {
@@ -70,8 +71,7 @@ function App(config) {
      * 
      */
     drawBackground = function () {
-        let ctx = $canvas.getContext("2d");
-        ctx.drawImage($img,
+        $canvas.ctx.drawImage($img,
             0, 0, $img.width, $img.height,
             0, 0, _this.config.canvasWidth, _this.config.canvasHeight,
         );
@@ -89,9 +89,13 @@ function App(config) {
             let x = Math.round(Math.random() * $zombie.buffer) * $zombie.width;
             let canvasX = Math.round(Math.random() * ($canvas.width-$zombie.width));
             let canvasY = Math.round(Math.random() * ($canvas.height - $zombie.height));
+            // life in second
+            let life = Math.round(Math.random()*30*1000);
             $zombie.list[y] = {
                 x: x,
                 y: y,
+                life:life,
+                polygon: [],
                 canvas: {
                     x: canvasX,
                     y: canvasY
@@ -104,7 +108,9 @@ function App(config) {
      * 
      */
     drawZombie = function () {
-        let ctx = $canvas.getContext("2d");
+        // for draw polygon
+        $canvas.ctx.beginPath();
+
         // Drawing zombie
         let obj = {};
         for (let i in $zombie.list) {
@@ -114,13 +120,27 @@ function App(config) {
             if (obj.y < $zombie.height) {
                 ratio = obj.y / $zombie.height;
             }
-
-            ctx.drawImage($zombie,
+            $zombie.list[i].polygon = [
+                // top-left
+                {x:obj.canvas.x,y:obj.canvas.y},
+                // bottom-left
+                {x:obj.canvas.x,y:obj.canvas.y+($zombie.height * ratio)},
+                // bottom-right
+                {x:obj.canvas.x+($zombie.width * ratio),y:obj.canvas.y+($zombie.height * ratio)},
+                // top-right
+                {x:obj.canvas.x+($zombie.width * ratio),y:obj.canvas.y},
+            ];
+            defineShape($zombie.list[i].polygon);
+            $canvas.ctx.fillText(obj.life,obj.canvas.x+(($zombie.width*ratio)/2),obj.canvas.y);
+            $canvas.ctx.drawImage($zombie,
                 obj.x, 0, $zombie.width, $zombie.height,
                 obj.canvas.x, obj.canvas.y,
                 $zombie.width * ratio, $zombie.height * ratio,
             );
         }
+
+        // close polygon path
+        $canvas.ctx.closePath();
     }
 
     /**
@@ -133,11 +153,20 @@ function App(config) {
         let list = Object.keys($zombie.list);
         for (var i = 0; i < list.length; i++) {
             let index = list[i];
-            // let index = list[Math.floor(Math.random() * list.length)];
+
+            if(i%2 == 0){
+                $zombie.list[index].canvas.x++;
+            }else{
+
+                $zombie.list[index].canvas.x--;
+            }
+
             $zombie.list[index].y++;
             $zombie.list[index].canvas.y++;
+            $zombie.list[index].life -= _this.config.updateIntervalTime;
 
-            if ($zombie.list[index].canvas.y > ($canvas.height*0.95)) {
+            // Kill zombie when time over or hidden from canvas
+            if ($zombie.list[index].life < 0 || $zombie.list[index].canvas.y > $canvas.height) {
                 addZombie(1);
                 delete $zombie.list[index];
             }
@@ -160,25 +189,56 @@ function App(config) {
     /**
      * Shoot gun
      */
-    this.shoot = function () {
+    this.shoot = function (event) {
+        let x = event.clientX;
+        let y = event.clientY;
+
         $shoot.currentTime = 0;
         $shoot.play();
+        let status =  $canvas.ctx.isPointInPath(x, y);
+        // Kill zombie when right shoot
+        if(status){
+            let obj;
+            let index;
+            let list = Object.keys($zombie.list);
+            for (var i = list.length-1; i >= 0 ; i--) {
+                index = list[i];
+                obj = $zombie.list[index];
+                if(checkPolygon(obj.polygon,[x,y])){
+                    delete $zombie.list[index];
+                    // add new zombie
+                    addZombie(1);
+
+                    // kill only one zombie at time
+                    break;
+                }
+            }
+        }
     }
 
-    showCoordinate = function (event) {
-        // let x = event.clientX;
-        // let y = event.clientY;
-        // document.getElementById("coordinateX").style.top = y+'px';
-        // document.getElementById("coordinateY").style.left = x+'px';
+    checkPolygon = function(vs,point){
+        
+        var x = point[0], y = point[1];
+    
+        var inside = false;
+        for (var i = 0, j = vs.length - 1; i < vs.length; j = i++) {
+            var xi = vs[i].x, yi = vs[i].y;
+            var xj = vs[j].x, yj = vs[j].y;
+    
+            var intersect = ((yi > y) != (yj > y))
+                && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
+            if (intersect) inside = !inside;
+        }
+    
+        return inside;
+    }
 
-        // drawBackground();
-        // let ctx = $canvas.getContext("2d");
-        // let zombieWidth = 190;
-        // let ratio = y/$zombie.height;
-        // ctx.drawImage($zombie,
-        //     0, 0, zombieWidth, $zombie.height,
-        //     x, 0,
-        //     zombieWidth*ratio, $zombie.height*ratio,
-        // );
+    defineShape = function(polygon){
+        $canvas.ctx.moveTo(polygon[0].x, polygon[0].y);
+        for (var i = 1; i < polygon.length; i++) {
+            $canvas.ctx.lineTo(polygon[i].x, polygon[i].y);
+        }
+        // print on canvas
+        // $canvas.ctx.fill();
     }
 }
