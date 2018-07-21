@@ -12,22 +12,44 @@ function App(config) {
         zombieId: 'zombie',
         canvasHeight: window.innerHeight,
         canvasWidth: window.innerWidth,
+        updateIntervalTime: 60,
+        updateIntervalStatus: undefined,
     }, config);
     $canvas = document.getElementById(_this.config.canvasId);
     $img = document.getElementById(_this.config.imgId);
     $zombie = document.getElementById(_this.config.zombieId);
     $zombie.buffer = 7;
     $zombie.skin = 1;
+    $zombie.width = 188;
+    $zombie.list = {};
     $shoot = document.getElementById(_this.config.shootId);
+
+
+    /**
+     * Init application
+     * 
+     */
+    this.init = function () {
+        setViewport();
+        drawBackground();
+        addZombie();
+        // drawZombie();
+
+        if (_this.config.updateIntervalStatus == undefined) {
+            _this.config.updateIntervalStatus = setInterval(function () {
+                this.animateZombie();
+                this.drawBackground();
+                this.drawZombie();
+            }, _this.config.updateIntervalTime);
+        }
+    }
+
 
     /**
      * Start application
      * 
      */
     this.play = function () {
-        setViewport();
-        drawBackground();
-        drawZombie();
     }
 
     /**
@@ -48,7 +70,7 @@ function App(config) {
      * 
      */
     drawBackground = function () {
-        var ctx = $canvas.getContext("2d");
+        let ctx = $canvas.getContext("2d");
         ctx.drawImage($img,
             0, 0, $img.width, $img.height,
             0, 0, _this.config.canvasWidth, _this.config.canvasHeight,
@@ -56,31 +78,69 @@ function App(config) {
     }
 
     /**
+     * Add zombie
+     * 
+     */
+    addZombie = function (limit) {
+        limit = limit || 15;
+        // Create zombie object
+        for (let i = 0; i < limit; i++) {
+            let y = Math.round(Math.random() * $canvas.height);
+            let x = Math.round(Math.random() * $zombie.buffer) * $zombie.width;
+            let canvasX = Math.round(Math.random() * ($canvas.width-$zombie.width));
+            let canvasY = Math.round(Math.random() * ($canvas.height - $zombie.height));
+            $zombie.list[y] = {
+                x: x,
+                y: y,
+                canvas: {
+                    x: canvasX,
+                    y: canvasY
+                }
+            };
+        }
+    }
+    /**
      * Draw zombie
      * 
      */
     drawZombie = function () {
-        var ctx = $canvas.getContext("2d");
-        var zombieWidth = 190;
-        var zombieList = {};
-        for (var i = 0; i < 25; i++) {
-            var y = Math.round(Math.random() * $zombie.height);
-            zombieList[y] = {
-                x: Math.round(Math.random() * $zombie.buffer) * zombieWidth,
-                y: y,
-                canvasX:Math.round(Math.random() * $canvas.width)
-            };
-        }
-        var obj = {};
-        for (var i in zombieList) {
-            obj = zombieList[i];
+        let ctx = $canvas.getContext("2d");
+        // Drawing zombie
+        let obj = {};
+        for (let i in $zombie.list) {
+            obj = $zombie.list[i];
 
-            var ratio = obj.y / $zombie.height;
+            let ratio = 1;
+            if (obj.y < $zombie.height) {
+                ratio = obj.y / $zombie.height;
+            }
+
             ctx.drawImage($zombie,
-                obj.x, 0, zombieWidth, $zombie.height,
-                obj.canvasX, 0,
-                zombieWidth * ratio, $zombie.height * ratio,
+                obj.x, 0, $zombie.width, $zombie.height,
+                obj.canvas.x, obj.canvas.y,
+                $zombie.width * ratio, $zombie.height * ratio,
             );
+        }
+    }
+
+    /**
+     * Animate zombie
+     * 
+     * @param none
+     * @return void
+     */
+    animateZombie = function () {
+        let list = Object.keys($zombie.list);
+        for (var i = 0; i < list.length; i++) {
+            let index = list[i];
+            // let index = list[Math.floor(Math.random() * list.length)];
+            $zombie.list[index].y++;
+            $zombie.list[index].canvas.y++;
+
+            if ($zombie.list[index].canvas.y > ($canvas.height*0.95)) {
+                addZombie(1);
+                delete $zombie.list[index];
+            }
         }
     }
 
@@ -106,15 +166,15 @@ function App(config) {
     }
 
     showCoordinate = function (event) {
-        // var x = event.clientX;
-        // var y = event.clientY;
+        // let x = event.clientX;
+        // let y = event.clientY;
         // document.getElementById("coordinateX").style.top = y+'px';
         // document.getElementById("coordinateY").style.left = x+'px';
 
         // drawBackground();
-        // var ctx = $canvas.getContext("2d");
-        // var zombieWidth = 190;
-        // var ratio = y/$zombie.height;
+        // let ctx = $canvas.getContext("2d");
+        // let zombieWidth = 190;
+        // let ratio = y/$zombie.height;
         // ctx.drawImage($zombie,
         //     0, 0, zombieWidth, $zombie.height,
         //     x, 0,
