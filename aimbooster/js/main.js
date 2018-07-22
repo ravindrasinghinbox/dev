@@ -10,10 +10,17 @@ function App(config) {
         imgId: 'bg',
         shootId: 'shoot',
         zombieId: 'zombie',
+        GunId: 'gun',
         canvasHeight: window.innerHeight,
         canvasWidth: window.innerWidth,
         updateIntervalTime: 60,
         updateIntervalStatus: undefined,
+        summary:{
+            player:{
+                shoot:0,
+                failedShoot:0,
+            }
+        }
     }, config);
     $canvas = document.getElementById(_this.config.canvasId);
     $canvas.ctx = $canvas.getContext("2d");
@@ -90,7 +97,7 @@ function App(config) {
             let canvasX = Math.round(Math.random() * ($canvas.width-$zombie.width));
             let canvasY = Math.round(Math.random() * ($canvas.height - $zombie.height));
             // life in second
-            let life = Math.round(Math.random()*30*1000);
+            let life = Math.round(Math.random()*15*1000);
             $zombie.list[y] = {
                 x: x,
                 y: y,
@@ -260,5 +267,11 @@ function App(config) {
         }
         // print on canvas
         // $canvas.ctx.fill();
+    }
+
+    gameOver = function(){
+        if (_this.config.updateIntervalStatus !== undefined) {
+            _this.config.updateIntervalStatus = clearInterval(_this.config.updateIntervalStatus);
+        }
     }
 }
