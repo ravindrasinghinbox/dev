@@ -86,7 +86,7 @@ function App(config) {
         // Create zombie object
         for (let i = 0; i < limit; i++) {
             let y = Math.round(Math.random() * $canvas.height);
-            let x = Math.round(Math.random() * $zombie.buffer) * $zombie.width;
+            let x = Math.floor(Math.random() * $zombie.buffer) * $zombie.width;
             let canvasX = Math.round(Math.random() * ($canvas.width-$zombie.width));
             let canvasY = Math.round(Math.random() * ($canvas.height - $zombie.height));
             // life in second
@@ -120,15 +120,30 @@ function App(config) {
             if (obj.y < $zombie.height) {
                 ratio = obj.y / $zombie.height;
             }
+            // $zombie.list[i].polygon = [
+            //     // top-left
+            //     {x:obj.canvas.x,y:obj.canvas.y},
+            //     // bottom-left
+            //     {x:obj.canvas.x,y:obj.canvas.y+($zombie.height * ratio)},
+            //     // bottom-right
+            //     {x:obj.canvas.x+($zombie.width * ratio),y:obj.canvas.y+($zombie.height * ratio)},
+            //     // top-right
+            //     {x:obj.canvas.x+($zombie.width * ratio),y:obj.canvas.y},
+            // ];
+            // zombie head size 38x56
+            let headHeight = 56;
+            let headWidth = 38;
+            let gutter = 20;
+            let x1 = ((($zombie.width+gutter)/2)-(headWidth/2))*ratio;
             $zombie.list[i].polygon = [
                 // top-left
-                {x:obj.canvas.x,y:obj.canvas.y},
+                {x:obj.canvas.x+x1,y:obj.canvas.y},
                 // bottom-left
-                {x:obj.canvas.x,y:obj.canvas.y+($zombie.height * ratio)},
+                {x:obj.canvas.x+x1,y:obj.canvas.y+(headHeight * ratio)},
                 // bottom-right
-                {x:obj.canvas.x+($zombie.width * ratio),y:obj.canvas.y+($zombie.height * ratio)},
+                {x:obj.canvas.x+x1+(headWidth * ratio),y:obj.canvas.y+(headHeight * ratio)},
                 // top-right
-                {x:obj.canvas.x+($zombie.width * ratio),y:obj.canvas.y},
+                {x:obj.canvas.x+x1+(headWidth * ratio),y:obj.canvas.y},
             ];
             defineShape($zombie.list[i].polygon);
             $canvas.ctx.fillText(obj.life,obj.canvas.x+(($zombie.width*ratio)/2),obj.canvas.y);
@@ -206,13 +221,18 @@ function App(config) {
                 obj = $zombie.list[index];
                 if(checkPolygon(obj.polygon,[x,y])){
                     delete $zombie.list[index];
-                    // add new zombie
-                    addZombie(1);
-
+                    let status = (Math.round(Math.random()*10)%2 == 0)
+                    if(status){
+                        // add new zombie
+                        addZombie(1);
+                    }
                     // kill only one zombie at time
                     break;
                 }
             }
+        }else{
+            // Create random zombie when shoot missed
+            addZombie(Math.round(Math.random()*5));
         }
     }
 
