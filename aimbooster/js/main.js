@@ -95,12 +95,12 @@ function App(config) {
             let y = Math.round(Math.random() * $canvas.height);
             let x = Math.floor(Math.random() * $zombie.buffer) * $zombie.width;
             let canvasX = Math.round(Math.random() * ($canvas.width-$zombie.width));
-            let canvasY = Math.round(Math.random() * ($canvas.height - $zombie.height));
+            let canvasY = 0;//Math.round(Math.random() * ($canvas.height - $zombie.height));
             // life in second
-            let life = Math.round(Math.random()*15*1000);
+            let life = Math.round(Math.random()*30*1000);
             $zombie.list[y] = {
                 x: x,
-                y: y,
+                y: 0,
                 life:life,
                 polygon: [],
                 canvas: {
@@ -153,12 +153,12 @@ function App(config) {
                 {x:obj.canvas.x+x1+(headWidth * ratio),y:obj.canvas.y},
             ];
             defineShape($zombie.list[i].polygon);
-            $canvas.ctx.fillText(obj.life,obj.canvas.x+(($zombie.width*ratio)/2),obj.canvas.y);
             $canvas.ctx.drawImage($zombie,
                 obj.x, 0, $zombie.width, $zombie.height,
                 obj.canvas.x, obj.canvas.y,
                 $zombie.width * ratio, $zombie.height * ratio,
             );
+            $canvas.ctx.fillText(obj.life,obj.canvas.x+(($zombie.width*ratio)/2),obj.canvas.y);            
         }
 
         // close polygon path
