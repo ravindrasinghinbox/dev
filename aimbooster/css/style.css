@@ -4,8 +4,86 @@ body,html{
     padding: 0;
     overflow: hidden;
     cursor: crosshair;
+    height: 100%;
+    width: 100%;
+}
+body{
+    background-image: url(../img/bg/default2.jpg);
+    background-position: 0 0;
+    background-size: 100%;
+    -webkit-animation: loading 15s infinite alternate;
+	-moz-animation: loading 15s infinite alternate;
+	-ms-animation: loading 15s infinite alternate;
+	-o-animation: loading 15s infinite alternate;
+	animation: loading 15s infinite  alternate;
+}
+@keyframes loading {
+ 0% {
+    background-position: 100% 100%;
+    background-size: 100%;
+ }
+ 50% {
+    background-position: 50% 50%;
+    background-size: 150%;
+ }
+ 100% {
+    background-position: 100% 100%;
+    background-size: 100%;
+ }
 }
 
+@-moz-keyframes loading {
+    0% {
+        background-position: 100% 100%;
+     }
+     50% {
+        background-position: 50% 50%;
+     }
+     100% {
+        background-position: 100% 100%;
+     }
+}
+
+@-webkit-keyframes loading {
+    0% {
+        background-position: 100% 100%;
+     }
+     50% {
+        background-position: 50% 50%;
+     }
+     100% {
+        background-position: 100% 100%;
+     }
+}
+
+@-ms-keyframes loading {
+    0% {
+        background-position: 100% 100%;
+     }
+     50% {
+        background-position: 50% 50%;
+     }
+     100% {
+        background-position: 100% 100%;
+     }
+}
+
+@-o-keyframes loading {
+    0% {
+        background-position: 100% 100%;
+     }
+     50% {
+        background-position: 50% 50%;
+     }
+     100% {
+        background-position: 100% 100%;
+     }
+}
+
+body.zombieTouchScreen
+{
+    box-shadow: inset 0px 0px 100px 15px red;
+}
 #canvas{
     float: left;
     width: 100%;

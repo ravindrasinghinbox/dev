@@ -9,8 +9,9 @@ function App(config) {
         canvasId: 'canvas',
         imgId: 'bg',
         shootId: 'shoot',
+        backgroundSoundId: 'backgroundSound',
         zombieId: 'zombie',
-        GunId: 'gun',
+        gunId: 'gun',
         canvasHeight: window.innerHeight,
         canvasWidth: window.innerWidth,
         updateIntervalTime: 60,
@@ -31,6 +32,7 @@ function App(config) {
     $zombie.width = 188;
     $zombie.list = {};
     $shoot = document.getElementById(_this.config.shootId);
+    $backgroundSound = document.getElementById(_this.config.backgroundSoundId);
 
 
     /**
@@ -39,20 +41,24 @@ function App(config) {
      */
     this.init = function () {
         setViewport();
-        drawBackground();
+        // drawBackground();
         addZombie();
         drawZombie();
+        this.playBackgroundSound();
 
         if (_this.config.updateIntervalStatus == undefined) {
             _this.config.updateIntervalStatus = setInterval(function () {
                 this.animateZombie();
-                this.drawBackground();
+                // this.drawBackground();
                 this.drawZombie();
             }, _this.config.updateIntervalTime);
         }
     }
 
 
+    this.playBackgroundSound = function(){
+        $backgroundSound.play();
+    }
     /**
      * Start application
      * 
@@ -115,6 +121,8 @@ function App(config) {
      * 
      */
     drawZombie = function () {
+        $canvas.width = $canvas.width;
+        
         // for draw polygon
         $canvas.ctx.beginPath();
 
