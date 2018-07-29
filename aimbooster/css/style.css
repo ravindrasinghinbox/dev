@@ -9,8 +9,8 @@ body,html{
 }
 body{
     background-image: url(../img/bg/default2.jpg);
-    background-position: 0 0;
-    background-size: 100%;
+    background-position: 100% 100%;
+    background-size: 100% 100%;
     -webkit-animation: loading 15s infinite alternate;
 	-moz-animation: loading 15s infinite alternate;
 	-ms-animation: loading 15s infinite alternate;
@@ -20,15 +20,15 @@ body{
 @keyframes loading {
  0% {
     background-position: 100% 100%;
-    background-size: 100%;
+    background-size: 100% 100%;
  }
  50% {
     background-position: 50% 50%;
-    background-size: 150%;
+    background-size: 150% 150%;
  }
  100% {
     background-position: 100% 100%;
-    background-size: 100%;
+    background-size: 100% 100%;
  }
 }
 
@@ -101,4 +101,52 @@ body.zombieTouchScreen
     left: 0;
     width: 100px;
     height: 100px;
+}
+.canvasTable
+{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 999;
+    box-shadow: inset 0px 0px 125px 5px #191313;
+    display: none;
+    transition: all 300ms ease-in-out;
+}
+.canvasTable.show
+{
+    display: table;
+}
+.canvasCell{
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+}
+.welcomeMsg{
+    text-shadow: 0px 0px 5px #8e8080;
+    font-size: 5em;
+    margin: 0;
+}
+.summary
+{
+    position: fixed;
+    color: #989898;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2em;
+    background:rgba(0,0,0,0.5);
+    text-align: center;
+}
+.summary .card{
+    display: inline-block;
+    width: 100px;
+    border-right: 1px dashed #777575;
+}
+.summary .card:last-child{
+    border-right: none;
+}
+.cardTitle,.cardValue {
+    margin: 0;
 }

@@ -10,7 +10,9 @@ function App(config) {
         imgId: 'bg',
         shootId: 'shoot',
         backgroundSoundId: 'backgroundSound',
+        canvasTableId: 'canvasTable',
         zombieId: 'zombie',
+        welcomeMsgId:'welcomeMsg',
         gunId: 'gun',
         canvasHeight: window.innerHeight,
         canvasWidth: window.innerWidth,
@@ -33,20 +35,31 @@ function App(config) {
     $zombie.list = {};
     $shoot = document.getElementById(_this.config.shootId);
     $backgroundSound = document.getElementById(_this.config.backgroundSoundId);
+    $canvasTable = document.getElementById(_this.config.canvasTableId);
+    $welcomeMsg = document.getElementById(_this.config.welcomeMsgId);
 
 
     /**
      * Init application
      * 
      */
-    this.init = function () {
-        setViewport();
-        // drawBackground();
-        addZombie();
-        drawZombie();
-        this.playBackgroundSound();
+    this.init = function (init = false) {
 
         if (_this.config.updateIntervalStatus == undefined) {
+
+            if(!init){
+                showInfo('Click on + to start game');
+                return;
+            }
+            else{
+                showInfo();
+            }
+            setViewport();
+            // drawBackground();
+            addZombie();
+            drawZombie();
+            this.playBackgroundSound();
+            
             _this.config.updateIntervalStatus = setInterval(function () {
                 this.animateZombie();
                 // this.drawBackground();
@@ -280,6 +293,16 @@ function App(config) {
     gameOver = function(){
         if (_this.config.updateIntervalStatus !== undefined) {
             _this.config.updateIntervalStatus = clearInterval(_this.config.updateIntervalStatus);
+        }
+    }
+
+    showInfo = function(msg){
+        if(msg){
+            $canvasTable.classList.add('show');
+            $welcomeMsg.innerText = msg;
+        }
+        else{
+            $canvasTable.classList.remove('show')
         }
     }
 }

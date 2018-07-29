@@ -30,6 +30,33 @@
     <canvas id="canvas" onclick="app.shoot(event)">
         Your browser does not support the HTML5 canvas tag.
     </canvas>
+    <div class="summary">
+        <div class="card">
+            <p class="cardTitle">Time</p>
+            <p class="cardValue">00:05:01</p>
+        </div>
+        <div class="card">
+            <p class="cardTitle">Life</p>
+            <p class="cardValue">100%</p>
+        </div>
+        <div class="card">
+            <p class="cardTitle">Killed</p>
+            <p class="cardValue">1024</p>
+        </div>
+        <div class="card">
+            <p class="cardTitle">Missed</p>
+            <p class="cardValue">512</p>
+        </div>
+        <div class="card">
+            <p class="cardTitle">Accuracy</p>
+            <p class="cardValue">90%</p>
+        </div>
+    </div>
+    <div id="canvasTable" class="canvasTable show">
+        <div class="canvasCell">
+            <h1 id="welcomeMsg" class="welcomeMsg" onclick="app.init(true)" focus="true"></h1>
+        </div>
+    </div>
 </body>
 
 </html>
