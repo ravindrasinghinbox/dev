@@ -14,14 +14,22 @@ function App(config) {
         zombieId: 'zombie',
         welcomeMsgId:'welcomeMsg',
         gunId: 'gun',
+        timeId: 'time',
+        lifeId: 'life',
+        killedId: 'killed',
+        missedId: 'missed',
+        accuracyId: 'accuracy',
         canvasHeight: window.innerHeight,
         canvasWidth: window.innerWidth,
         updateIntervalTime: 60,
         updateIntervalStatus: undefined,
         summary:{
             player:{
-                shoot:0,
-                failedShoot:0,
+                time:0,
+                life:0,
+                killed:0,
+                missed:0,
+                accuracy:0
             }
         }
     }, config);
@@ -37,7 +45,11 @@ function App(config) {
     $backgroundSound = document.getElementById(_this.config.backgroundSoundId);
     $canvasTable = document.getElementById(_this.config.canvasTableId);
     $welcomeMsg = document.getElementById(_this.config.welcomeMsgId);
-
+    $time = document.getElementById(_this.config.timeId);
+    $life = document.getElementById(_this.config.lifeId);
+    $killed = document.getElementById(_this.config.killedId);
+    $missed = document.getElementById(_this.config.missedId);
+    $accuracy = document.getElementById(_this.config.accuracyId);
 
     /**
      * Init application
@@ -264,6 +276,9 @@ function App(config) {
         }
     }
 
+    /**
+     * Check polygon exist in vertex
+     */
     checkPolygon = function(vs,point){
         
         var x = point[0], y = point[1];
@@ -281,6 +296,10 @@ function App(config) {
         return inside;
     }
 
+    /**
+     * Define shape for zombie
+     * 
+     */
     defineShape = function(polygon){
         $canvas.ctx.moveTo(polygon[0].x, polygon[0].y);
         for (var i = 1; i < polygon.length; i++) {
@@ -290,12 +309,20 @@ function App(config) {
         // $canvas.ctx.fill();
     }
 
+    /**
+     * Show game over msg
+     */
     gameOver = function(){
         if (_this.config.updateIntervalStatus !== undefined) {
             _this.config.updateIntervalStatus = clearInterval(_this.config.updateIntervalStatus);
         }
     }
 
+    /**
+     * Show info msg on canvas
+     * 
+     * @param string message
+     */
     showInfo = function(msg){
         if(msg){
             $canvasTable.classList.add('show');
@@ -304,5 +331,45 @@ function App(config) {
         else{
             $canvasTable.classList.remove('show')
         }
+    }
+
+    /**
+     * Update running time of game
+     */
+    updateTime = function(){
+        let t = new Date();
+        $time.innerText = t.getHours()+':'+t.getMinutes()+':'+t.getSeconds();
+    }
+
+     /**
+     * Update life
+     */
+    updateLife = function(){
+        let t = new Date();
+        $life.innerText = ++_this.config.summary.player.life;
+    }
+
+     /**
+     * Update killed zombie
+     */
+    updateKilled = function(){
+        let t = new Date();
+        $killed.innerText = ++_this.config.summary.player.killed;
+    }
+
+    /**
+     * Update missed zombie
+     */
+    updateMissed = function(){
+        let t = new Date();
+        $missed.innerText = ++_this.config.summary.player.missed;
+    }
+
+    /**
+     * Update missed zombie
+     */
+    updateAccuracy = function(){
+        let t = new Date();
+        $accuracy.innerText = ++_this.config.summary.player.accuracy;
     }
 }
