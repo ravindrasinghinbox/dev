@@ -193,6 +193,9 @@ var BBOX_BOUNDARY_FILL_COLOR_NEW       = "#aaeeff";
 var BBOX_BOUNDARY_LINE_COLOR           = "#1a1a1a";
 var BBOX_SELECTED_FILL_COLOR           = "#ffffff";
 
+// More element
+
+var _moreImage = document.getElementById("moreImage");
 //
 // Data structure for annotations
 //
@@ -243,7 +246,7 @@ function show_home_panel() {
     show_all_canvas();
     set_all_text_panel_display('none');
   } else {
-    var start_info = '<button class="btn uploadImage leftsidebar_accordion" onclick="sel_local_images()"><i class="fas fa-plus"></i>Upload Image</button>';
+    var start_info = '<button class="btn uploadImage leftsidebar_accordion" onclick="sel_local_images()"><i class="fas fa-plus"></i> Upload Image</button>';
     clear_image_display_area();
     document.getElementById('via_start_info_panel').innerHTML = start_info;
     document.getElementById('via_start_info_panel').style.display = 'block';
@@ -358,7 +361,14 @@ function store_local_img_ref(event) {
       } else {
         _via_img_metadata[img_id] = new ImageMetadata(user_selected_images[i],
                                                       filename,
-                                                      size);
+                                                      size);                      
+          (function(img_id,file){
+            var tempReader = new FileReader();
+            tempReader.readAsDataURL(file);
+            tempReader.onloadend = function () {
+              _via_img_metadata[img_id].src = tempReader.result;
+            }
+          })(img_id,user_selected_images[i]);
         _via_image_id_list.push(img_id);
         _via_img_count += 1;
         _via_reload_img_table = true;
@@ -944,6 +954,8 @@ function show_image(image_index) {
 
     _via_current_image.addEventListener( "load", function() {
 
+      toggleUploadButton(true);
+
       // update the current state of application
       _via_image_id = img_id;
       _via_image_index = image_index;
@@ -1012,7 +1024,6 @@ function show_image(image_index) {
       // @todo: let the height of image list match that of window
       _via_reload_img_table = true;
       var img_list_height = document.documentElement.clientHeight/3 + 'px';
-      img_list_panel.setAttribute('style', 'height: ' + img_list_height);
       if (_via_is_loaded_img_list_visible) {
         show_img_list();
       }
@@ -1165,7 +1176,6 @@ function toggle_img_list(panel) {
   panel.classList.toggle('active');
 
   if (_via_is_loaded_img_list_visible) {
-    img_list_panel.style.display    = 'none';
     _via_is_loaded_img_list_visible = false;
   } else {
     _via_is_loaded_img_list_visible = true;
@@ -1185,7 +1195,6 @@ function show_img_list() {
       _via_reload_img_table = false;
     }
     img_list_panel.innerHTML = _via_loaded_img_table_html.join('');
-    img_list_panel.style.display = 'block';
 
     // scroll img_list_panel automatically to show the current image filename
     var panel        = document.getElementById('img_list_panel');
@@ -1212,7 +1221,7 @@ function reload_img_table() {
   }
 
   _via_loaded_img_table_html = [];
-  _via_loaded_img_table_html.push('<ul>');
+  _via_loaded_img_table_html.push('<ul class="tabList">');
   for ( var i=0; i < _via_img_count; ++i ) {
     var fni = '';
     var dynamicClass = '';
@@ -1222,13 +1231,13 @@ function reload_img_table() {
       dynamicClass = 'font-weight-bold';
       dynamicEvent = '';
     }
-    console.log(_via_img_metadata);
+
     fni +=`<li id="flist`+i+`" `+dynamicEvent+` title="` + _via_loaded_img_fn_list[i] + `">
         <div class="liCol imgIcon">
-          <img src="`+_via_loaded_img_fn_list[i]+`" class="imgThumb">
+          <img src="`+_via_img_metadata[_via_image_id_list[i]].src+`" class="imgThumb">
         </div>
-        <div class="liCol `+dynamicClass+`">
-          Knowledge image
+        <div class="liCol `+dynamicClass+` textOverflow">
+          `+_via_loaded_img_fn_list[i]+`
         </div>
       </li>`;
 
@@ -3792,6 +3801,21 @@ function add_new_attribute(type, attribute_name) {
     break;
   }
   _via_is_user_adding_attribute_name = false;
+}
+/**
+ * Will show and hide add more button based
+ * on parameter
+ * 
+ * @param {boolean} status status of element
+ */
+function toggleUploadButton(status){
+  status = status || true;
+  let state = 'active';
+  if(status){
+    _moreImage.classList.add(state);
+  }else{
+    _moreImage.classList.remove(state);
+  }
 }
 
 //

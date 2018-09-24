@@ -21,6 +21,9 @@
 <body onload="_via_init()" onresize="_via_update_ui_components()">
   <nav id="ui_top_panel" class="navbar navbar-expand-sm fixed-top bg-light justify-content-end">
     <ul class="navbar-nav">
+      <li id="moreImage" class="nav-item seprator">
+        <a class="nav-link" href="#" onclick="sel_local_images()"><i class="fas fa-plus"></i> Add More Images</a>
+      </li>
       <li class="nav-item dropdown seprator">
         <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
           <i class="far fa-save"></i> Save
@@ -122,30 +125,6 @@
           </div>
           <div id="img_list_panel" class="tab-pane fade">
             <ul class="tabList">
-              <li>
-                <div class="liCol imgIcon">
-                  <img src="img1.jpeg" class="imgThumb" />
-                </div>
-                <div class="liCol">
-                  Knowledge image
-                </div>
-              </li>
-              <li>
-                <div class="liCol imgIcon">
-                  <img src="img2.jpg" class="imgThumb" />
-                </div>
-                <div class="liCol">
-                  Bring your life
-                </div>
-              </li>
-              <li>
-                <div class="liCol imgIcon">
-                  <img src="img3.jpg" class="imgThumb" />
-                </div>
-                <div class="liCol">
-                  Change your dream
-                </div>
-              </li>
             </ul>
           </div>
         </div>
