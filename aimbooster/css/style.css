@@ -138,6 +138,7 @@ body.zombieTouchScreen
     height: 2em;
     background:rgba(0,0,0,0.5);
     text-align: center;
+    padding:5px;
 }
 .summary .card{
     display: inline-block;

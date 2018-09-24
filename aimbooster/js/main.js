@@ -14,14 +14,27 @@ function App(config) {
         zombieId: 'zombie',
         welcomeMsgId:'welcomeMsg',
         gunId: 'gun',
+        timeId: 'time',
+        lifeId: 'life',
+        aliveId: 'alive',
+        killedId: 'killed',
+        missedId: 'missed',
+        coinId: 'coin',
+        accuracyId: 'accuracy',
         canvasHeight: window.innerHeight,
         canvasWidth: window.innerWidth,
         updateIntervalTime: 60,
         updateIntervalStatus: undefined,
         summary:{
             player:{
-                shoot:0,
-                failedShoot:0,
+                time:0,
+                life:0,
+                total:0,
+                alive:0,
+                killed:0,
+                missed:0,
+                coin:0,
+                accuracy:0
             }
         }
     }, config);
@@ -37,7 +50,13 @@ function App(config) {
     $backgroundSound = document.getElementById(_this.config.backgroundSoundId);
     $canvasTable = document.getElementById(_this.config.canvasTableId);
     $welcomeMsg = document.getElementById(_this.config.welcomeMsgId);
-
+    $time = document.getElementById(_this.config.timeId);
+    $life = document.getElementById(_this.config.lifeId);
+    $killed = document.getElementById(_this.config.killedId);
+    $alive = document.getElementById(_this.config.aliveId);
+    $missed = document.getElementById(_this.config.missedId);
+    $coin = document.getElementById(_this.config.coinId);
+    $accuracy = document.getElementById(_this.config.accuracyId);
 
     /**
      * Init application
@@ -53,6 +72,7 @@ function App(config) {
             }
             else{
                 showInfo();
+                setGameTime();
             }
             setViewport();
             // drawBackground();
@@ -64,6 +84,7 @@ function App(config) {
                 this.animateZombie();
                 // this.drawBackground();
                 this.drawZombie();
+                this.updateTime();
             }, _this.config.updateIntervalTime);
         }
     }
@@ -128,6 +149,8 @@ function App(config) {
                 }
             };
         }
+        updateTotal(limit);
+        updateAlive();
     }
     /**
      * Draw zombie
@@ -248,7 +271,9 @@ function App(config) {
                 index = list[i];
                 obj = $zombie.list[index];
                 if(checkPolygon(obj.polygon,[x,y])){
+                    updateCoin($zombie.list[index].life);
                     delete $zombie.list[index];
+                    updateKilled();
                     let status = (Math.round(Math.random()*10)%2 == 0)
                     if(status){
                         // add new zombie
@@ -259,11 +284,19 @@ function App(config) {
                 }
             }
         }else{
+            let num  = Math.round(Math.random()*5);
             // Create random zombie when shoot missed
-            addZombie(Math.round(Math.random()*5));
+            addZombie(num);
+            // Update missed zombie
+            updateMissed();
+            // updateLife();
         }
+        updateAccuracy();
     }
 
+    /**
+     * Check polygon exist in vertex
+     */
     checkPolygon = function(vs,point){
         
         var x = point[0], y = point[1];
@@ -281,6 +314,10 @@ function App(config) {
         return inside;
     }
 
+    /**
+     * Define shape for zombie
+     * 
+     */
     defineShape = function(polygon){
         $canvas.ctx.moveTo(polygon[0].x, polygon[0].y);
         for (var i = 1; i < polygon.length; i++) {
@@ -290,12 +327,21 @@ function App(config) {
         // $canvas.ctx.fill();
     }
 
+    /**
+     * Show game over msg
+     */
     gameOver = function(){
         if (_this.config.updateIntervalStatus !== undefined) {
             _this.config.updateIntervalStatus = clearInterval(_this.config.updateIntervalStatus);
+            showInfo("Game Over!");
         }
     }
 
+    /**
+     * Show info msg on canvas
+     * 
+     * @param string message
+     */
     showInfo = function(msg){
         if(msg){
             $canvasTable.classList.add('show');
@@ -304,5 +350,112 @@ function App(config) {
         else{
             $canvasTable.classList.remove('show')
         }
+    }
+
+    /**
+     * Update running time of game
+     */
+    updateTime = function(){
+        $time.innerText = getTimeDiff(_this.config.summary.player.time,getTime());
+    }
+
+     /**
+     * Update life
+     */
+    updateLife = function(){
+        let life = 100 - ((_this.config.summary.player.life*100)/_this.config.summary.player.coin);
+        $life.innerText = life.toFixed(2)+'%';
+    }
+
+     /**
+     * Update alive zombie
+     */
+    updateAlive = function(num){
+        _this.config.summary.player.alive = Object.keys($zombie.list).length;//num;
+        $alive.innerText = _this.config.summary.player.alive;
+    }
+
+     /**
+     * Update total zombie
+     */
+    updateTotal = function(num){
+        _this.config.summary.player.total = num;
+    }
+
+    /**
+     * Update killed zombie
+     */
+    updateKilled = function(){
+        $killed.innerText = ++_this.config.summary.player.killed;
+    }
+
+    /**
+     * Update missed zombie
+     */
+    updateMissed = function(){
+        $missed.innerText = ++_this.config.summary.player.missed;
+    }
+
+    /**
+     * update collected coin
+     */
+    updateCoin = function(num){
+        _this.config.summary.player.coin += num;
+        $coin.innerText = _this.config.summary.player.coin;
+    }
+
+    /**
+     * Update missed zombie
+     */
+    updateAccuracy = function(){
+        let accuracy = (_this.config.summary.player.killed *100 / (_this.config.summary.player.missed+_this.config.summary.player.killed));
+        $accuracy.innerText = accuracy.toFixed(2)+'%';
+
+        if(accuracy < 5 && _this.config.summary.player.missed && _this.config.summary.player.killed){
+            gameOver();
+        }
+    }
+
+    /**
+     * Get current time
+     */
+    getTime = function(){
+        return new Date();
+    }
+
+    /**
+     * Set game start time
+     */
+    setGameTime = function(){
+        _this.config.summary.player.time = getTime();
+    }
+
+    /**
+     * Get time diff
+     */
+    getTimeDiff = function(start,end){
+        let d,h,m,s,i;
+
+        // get milisecond difference
+        d = end.getTime() -start.getTime();
+
+        // get milisecond
+        i = d%1000;
+
+        // get seconds
+        s = Math.floor(d/1000);
+
+        // getting hours
+        h = Math.floor(s/3600);
+        s = s % 3600;
+
+        // getting minute
+        m = Math.floor(s/60); 
+        s = s % 60;
+        
+        m = m < 10 ?'0'+m:m;
+        s = ('0'+s).substr(-2);
+        i = ('00'+i).substr(-3);
+        return m+':'+s+':'+i;
     }
 }
