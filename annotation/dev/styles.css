@@ -1,0 +1,312 @@
+html,
+body {
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    padding-top: 48px !important;
+    padding-left: 48px !important;
+    background: #DDDDDD !important;
+}
+
+.bg-light {
+    background-color: #EEEEEE !important;
+}
+
+a,
+button {
+    color: #adadad !important;
+}
+
+a:hover {
+    color: #000000;
+}
+
+.btn-transparent {
+    background: none;
+}
+
+.seprator {
+    border-right: 1px solid #e8e8e8;
+}
+
+.far {
+    font-size: 1.5em;
+    vertical-align: bottom;
+}
+
+nav {
+    padding: 4px !important
+}
+
+.nav-link {
+    padding: .5rem 1.5rem !important;
+}
+
+.crossBtn {
+    background: gainsboro;
+}
+
+.t-container {
+    display: table;
+    width: 100%;
+    height: 100%;
+}
+
+.t-cell {
+    display: table-cell;
+}
+
+.alignMiddle {
+    vertical-align: middle;
+}
+
+.leftSide {
+    position: fixed;
+    top: 48px;
+    left: 0;
+    height: 100%;
+    z-index: 999999;
+    width: 48px;
+    background: #eeeeee;
+}
+
+ul.region_shape li {
+    float: left;
+    padding: 0 0.2em;
+    fill: #ffffff;
+    stroke: #000000;
+}
+
+.region_shape {
+    padding: 0px;
+}
+
+ul.region_shape li {
+    border-bottom: 1px solid #c7c7c7;
+}
+
+ul.region_shape {
+    font-size: xx-large;
+    list-style-type: none;
+    overflow: hidden;
+    padding: 0px 2px;
+    margin: 0;
+    text-align: center;
+}
+
+ul.region_shape li {
+    width: 100%;
+    padding: 0;
+    fill: #ffffff;
+    stroke: #000000;
+}
+
+ul.region_shape li:hover {
+    cursor: pointer;
+}
+
+ul.region_shape .selected,
+ul.region_shape li:hover {
+    fill: #ffffff;
+    stroke: #9E9E9E;
+}
+
+button.btn.uploadImage {
+    border: 1px dashed;
+    padding: 17px;
+    font-size: 2em;
+}
+
+svg {
+    fill: #d9d9d9;
+}
+
+.rightContainer {
+    width: 240px;
+}
+
+.rightContainer.panelHide {
+    transition: width 0.3s ease-in-out;
+}
+
+.rightContainer .nav-tabs {
+    border-bottom: 2px solid #ffffff;
+}
+
+.rightContainer .nav-tabs .nav-link {
+    border: 0;
+}
+
+.panelList {
+    margin-top: 50px;
+    background: #e0e0e0;
+    max-height: 80%;
+    border: 1px solid white;
+    border-radius: 10px 0px 0px 10px;
+    overflow: hidden;
+    box-shadow: 0px 0px 2px 1px #a09c9c;
+}
+
+.navTools {
+    background: rgb(210, 210, 210);
+    padding: 0px 5px;
+    color: darkgray;
+}
+
+.tab-content ul {
+    padding: 0px 5px;
+    list-style: none;
+}
+
+.liCol {
+    display: inline-block;
+    vertical-align: bottom;
+}
+
+.liCol svg {
+    stroke: #a8a8a8;
+    fill: #d9d9d9;
+    vertical-align: inherit;
+}
+
+.panelIcon {
+    border-right: 1px solid #c7c7c7;
+    padding: 0px 10px;
+}
+
+.imgIcon {
+    border-right: 1px solid #c7c7c7;
+    padding: 0;
+    padding-right: 5px;
+}
+
+.panelIcon i {
+    font-size: 17px;
+    color: #adadad;
+    vertical-align: initial;
+}
+
+.tabList li {
+    border-bottom: 1px solid #c7c7c7;
+    padding: 5px 0px;
+}
+
+.tabList li:last-child {
+    border-bottom: none;
+}
+
+.imgThumb {
+    width: 30px;
+    height: 20px;
+    border: 1px solid white;
+}
+
+.panelHide {
+    width: 40px;
+}
+
+.panelHide .nav-tabs .nav-item {
+    width: 100%;
+}
+
+.panelHide .nav-item a {
+    padding: 15px 10px !important;
+    text-align: center;
+    font-size: 19px;
+}
+
+.panelHide .tab-content,
+.nav-item span {
+    display: none;
+}
+
+.panelHide .nav-tabs {
+    border-bottom: none;
+}
+
+#loaded_img_panel {
+    padding-left: 5px;
+}
+
+.panelHide #loaded_img_panel {
+    display: none;
+}
+
+/* Defalut */
+
+#message_panel {
+    position: fixed;
+    left: 0;
+    bottom: 0px;
+    line-height: 3em;
+    width: 100%;
+    background-color: rgb(210, 210, 210);
+    color: #333332;
+    font-size: small;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    z-index: 1000;
+}
+
+#image_canvas {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    z-index: 1;
+}
+
+#region_canvas {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    z-index: 2;
+}
+
+.canvasCell {
+    padding: 15px;
+}
+
+#canvas_panel {
+    position: relative;
+    margin: 0;
+    padding: 0;
+    box-shadow: 0px 0px 5px;
+}
+
+.text_panel li {
+    list-style: none;
+}
+#loaded_img_panel {
+    padding-left: 5px;
+    display: inline-block;
+}
+.loading_spinbox {
+    display: inline-block;
+    border: 0.4em solid #cccccc;
+    border-radius: 50%;
+    border-top: 0.4em solid #000000;
+    -webkit-animation: spin 2s linear infinite;
+    animation: spin 2s linear infinite;
+}
+
+@-webkit-keyframes spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(360deg);
+    }
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
