@@ -29,9 +29,8 @@
           <i class="far fa-save"></i> Save
         </a>
         <div class="dropdown-menu">
-          <a class="dropdown-item" href="#">Link 1</a>
-          <a class="dropdown-item" href="#">Link 2</a>
-          <a class="dropdown-item" href="#">Link 3</a>
+          <a class="dropdown-item" href="#" onclick="download_all_region_data('csv')">Save as CSV</a>
+          <a class="dropdown-item" href="#" onclick="download_all_region_data('json')">Save as JSON</a>
         </div>
       </li>
       <li class="nav-item">
@@ -47,15 +46,18 @@
       <ul class="region_shape">
         <li id="region_shape_rect" class="selected" onclick="select_region_shape('rect')" title="Rectangle"><svg height="24"
             viewBox="0 0 32 32">
-            <use xlink:href="#shape_rectangle"></use>
+            <use xlink:href="#shape_rect"></use>
           </svg></li>
-        <li id="region_shape_circle" onclick="select_region_shape('circle')" title="Circle"><svg height="24" viewBox="0 0 32 32">
+        <li id="region_shape_circle" class="" onclick="select_region_shape('circle')" title="Circle"><svg height="24"
+            viewBox="0 0 32 32">
             <use xlink:href="#shape_circle"></use>
           </svg></li>
-        <li id="region_shape_ellipse" onclick="select_region_shape('ellipse')" title="Ellipse"><svg height="24" viewBox="0 0 32 32">
+        <li id="region_shape_ellipse" class="" onclick="select_region_shape('ellipse')" title="Ellipse"><svg height="24"
+            viewBox="0 0 32 32">
             <use xlink:href="#shape_ellipse"></use>
           </svg></li>
-        <li id="region_shape_polygon" onclick="select_region_shape('polygon')" title="Polygon"><svg height="24" viewBox="0 0 32 32">
+        <li id="region_shape_polygon" class="" onclick="select_region_shape('polygon')" title="Polygon"><svg height="24"
+            viewBox="0 0 32 32">
             <use xlink:href="#shape_polygon"></use>
           </svg></li>
       </ul>
@@ -79,54 +81,25 @@
         <div class="navTools"><i id="panelNav" class="fas fa-angle-double-right" onclick="togglePanel()"></i><i id="loaded_img_panel"></i></div>
         <ul class="nav nav-tabs" role="tablist">
           <li class="nav-item">
-            <a class="nav-link active" data-toggle="tab" href="#home"><i class="fas fa-layer-group"></i> <span>Layer</span></a>
+            <a class="nav-link active" data-toggle="tab" href="#layer"><i class="fas fa-layer-group"></i> <span>Layer</span></a>
           </li>
           <li class="nav-item">
             <a class="nav-link" data-toggle="tab" href="#img_list_panel"><i class="far fa-images"></i><span>Images</span></a>
           </li>
         </ul>
-        <div class="tab-content">
-          <div id="home" class="tab-pane active">
-            <ul class="tabList">
-              <li>
-                <div class="liCol panelIcon">
-                  <i class="far fa-eye"></i>
-                </div>
-                <div class="liCol">
-                  <svg height="24" viewBox="0 0 32 32">
-                    <use xlink:href="#shape_circle"></use>
-                  </svg>
-                  Circle 1
-                </div>
-              </li>
-              <li>
-                <div class="liCol panelIcon">
-                  <i class="far fa-eye"></i>
-                </div>
-                <div class="liCol">
-                  <svg height="24" viewBox="0 0 32 32">
-                    <use xlink:href="#shape_ellipse"></use>
-                  </svg>
-                  Ellipse 1
-                </div>
-              </li>
-              <li>
-                <div class="liCol panelIcon">
-                  <i class="far fa-eye"></i>
-                </div>
-                <div class="liCol">
-                  <svg height="24" viewBox="0 0 32 32">
-                    <use xlink:href="#shape_rectangle"></use>
-                  </svg>
-                  Rectangle 1
-                </div>
-              </li>
+        <div id="panelContent" class="tab-content">
+          <div id="layer" class="tab-pane active">
+            <ul id="layerList" class="tabList">
             </ul>
           </div>
           <div id="img_list_panel" class="tab-pane fade">
             <ul class="tabList">
             </ul>
           </div>
+        </div>
+
+        <div class="panelFooter text-right">
+          <a href="#"  onclick="delElement()"><i class="far fa-trash-alt"></i></a>
         </div>
       </div>
     </div>
@@ -139,7 +112,7 @@
   <svg style="position: absolute; width: 0; height: 0; overflow: hidden;" version="1.1" xmlns="http://www.w3.org/2000/svg"
     xmlns:xlink="http://www.w3.org/1999/xlink">
     <defs>
-      <symbol id="shape_rectangle">
+      <symbol id="shape_rect">
         <title>Rectangular region shape</title>
         <rect width="20" height="12" x="6" y="10" stroke-width="1" />
       </symbol>

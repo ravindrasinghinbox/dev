@@ -110,8 +110,9 @@ ul.region_shape li:hover {
 
 ul.region_shape .selected,
 ul.region_shape li:hover {
-    fill: #ffffff;
-    stroke: #9E9E9E;
+    fill: #9E9E9E;
+    stroke: #565656;
+    background: #adadad;
 }
 
 button.btn.uploadImage {
@@ -142,18 +143,36 @@ svg {
 }
 
 .panelList {
+    position: relative;
+    overflow: hidden;
     margin-top: 50px;
+    padding-bottom: 25px;
     background: #e0e0e0;
-    min-height: 250px;
-    max-height: 80%;
     border: 1px solid white;
     border-radius: 10px 0px 0px 10px;
-    overflow-y: auto;
     box-shadow: 0px 0px 2px 1px #a09c9c;
 }
-
+div#panelContent {
+    min-height: 250px;
+    max-height: -webkit-fill-available;
+    overflow-y: auto;
+}
+.panelFooter{
+    position: absolute;
+    padding: 5px;
+    bottom: 0;
+    font-size: 10px;
+    left: 0;
+    width: 100%;
+    height: 25px;
+    background: #ffffff;
+}
+.panelHide .panelFooter{
+    display: none;
+}
 .panelHide .panelList {
     overflow: hidden;
+    padding-bottom: 0px;
 }
 
 .navTools {
@@ -180,7 +199,7 @@ svg {
 
 .panelIcon {
     border-right: 1px solid #c7c7c7;
-    padding: 0px 10px;
+    padding: 0px 8px;
 }
 
 .imgIcon {
@@ -331,4 +350,17 @@ svg {
 }
 #moreImage.active{
     display: initial;
+}
+ul#layerList .del {
+    float: right;
+    margin-top: 6px;
+}
+.imgDel{
+    float: right;
+    margin-top: 7px;
+}
+.imageText{
+    display:inline-block;
+    cursor:pointer;
+    width:92%;
 }

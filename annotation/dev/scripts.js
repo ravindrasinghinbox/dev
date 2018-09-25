@@ -63,8 +63,7 @@ var VIA_SHORT_NAME   = 'VIA';
 var VIA_REGION_SHAPE = { RECT:'rect',
                          CIRCLE:'circle',
                          ELLIPSE:'ellipse',
-                         POLYGON:'polygon',
-                         POINT:'point'};
+                         POLYGON:'polygon'};
 
 var VIA_REGION_EDGE_TOL           = 5;   // pixel
 var VIA_REGION_CONTROL_POINT_SIZE = 2;
@@ -80,11 +79,11 @@ var VIA_CANVAS_ZOOM_LEVELS = [0.25, 0.5, 0.75, 1.0, 1.5, 2.0, 2.5, 3.0, 4, 5];
 
 var VIA_THEME_REGION_BOUNDARY_WIDTH = 4;
 var VIA_THEME_BOUNDARY_LINE_COLOR   = "#1a1a1a";
-var VIA_THEME_BOUNDARY_FILL_COLOR   = "#aaeeff";
-var VIA_THEME_SEL_REGION_FILL_COLOR = "#808080";
-var VIA_THEME_SEL_REGION_FILL_BOUNDARY_COLOR = "#000000";
+var VIA_THEME_BOUNDARY_FILL_COLOR   = "#ff0000";
+var VIA_THEME_SEL_REGION_FILL_COLOR = "#000000";
+var VIA_THEME_SEL_REGION_FILL_BOUNDARY_COLOR = "#ff0000";
 var VIA_THEME_SEL_REGION_OPACITY    = 0.5;
-var VIA_THEME_MESSAGE_TIMEOUT_MS    = 2500;
+var VIA_THEME_MESSAGE_TIMEOUT_MS    = 1500;
 var VIA_THEME_ATTRIBUTE_VALUE_FONT  = '10pt Sans';
 var VIA_THEME_CONTROL_POINT_COLOR   = '#ff0000';
 
@@ -196,6 +195,8 @@ var BBOX_SELECTED_FILL_COLOR           = "#ffffff";
 // More element
 
 var _moreImage = document.getElementById("moreImage");
+var _layerList = document.getElementById("layerList");
+let _img_list_panel = document.getElementById('img_list_panel');
 //
 // Data structure for annotations
 //
@@ -379,7 +380,9 @@ function store_local_img_ref(event) {
   }
 
   if ( _via_img_metadata ) {
-    var status_msg = 'Loaded ' + (_via_img_count - original_image_count) + ' images.';
+    var totalImg = (_via_img_count - original_image_count);
+    var status_msg = (totalImg)?'Loaded ' + totalImg + ' images.':'No new images found!';
+
     if ( discarded_file_count ) {
       status_msg += ' ( Discarded ' + discarded_file_count + ' non-image files! )';
     }
@@ -1105,6 +1108,8 @@ function _via_load_canvas_regions() {
       break;
     }
   }
+  
+  showImageLayer();
 }
 
 // updates currently selected region shape
@@ -1226,18 +1231,20 @@ function reload_img_table() {
     var fni = '';
     var dynamicClass = '';
     var dynamicEvent = `onclick="jump_to_image(` + (i) + `)"`;
+    var imgDel = `<input class="imgDel" value="`+_via_image_id_list[i]+`" type="checkbox">`;
     if ( i === _via_image_index ) {
       // highlight the current entry
       dynamicClass = 'font-weight-bold';
       dynamicEvent = '';
+      imgDel = '';
     }
 
-    fni +=`<li id="flist`+i+`" `+dynamicEvent+` title="` + _via_loaded_img_fn_list[i] + `">
+    fni +=`<li id="flist`+i+`"  title="` + _via_loaded_img_fn_list[i] + `">
         <div class="liCol imgIcon">
           <img src="`+_via_img_metadata[_via_image_id_list[i]].src+`" class="imgThumb">
         </div>
         <div class="liCol `+dynamicClass+` textOverflow">
-          `+_via_loaded_img_fn_list[i]+`
+          <div class="imageText" `+dynamicEvent+`>`+_via_loaded_img_fn_list[i]+`</div> `+imgDel+`
         </div>
       </li>`;
 
@@ -1730,6 +1737,7 @@ _via_reg_canvas.addEventListener('mouseup', function(e) {
     }
     _via_redraw_reg_canvas();
     _via_reg_canvas.focus();
+    showImageLayer();
     return;
   }
 
@@ -1845,6 +1853,7 @@ _via_reg_canvas.addEventListener('mouseup', function(e) {
     _via_reg_canvas.focus();
 
     save_current_data_to_browser_cache();
+    showImageLayer();
     return;
   }
 
@@ -2515,17 +2524,17 @@ function draw_all_region_id() {
     // first, draw a background rectangle first
     _via_reg_ctx.fillStyle = 'black';
     _via_reg_ctx.globalAlpha = 0.8;
-    _via_reg_ctx.fillRect(Math.floor(x),
-                          Math.floor(y - 1.1*char_height),
+    _via_reg_ctx.fillRect(Math.floor(x+0.12*char_width),
+                          Math.floor(y + 0.15*char_height),
                           Math.floor(bgnd_rect_width),
-                          Math.floor(char_height));
+                          Math.floor(0.85*char_height));
 
     // then, draw text over this background rectangle
     _via_reg_ctx.globalAlpha = 1.0;
     _via_reg_ctx.fillStyle = 'yellow';
     _via_reg_ctx.fillText(annotation_str,
                           Math.floor(x + 0.4*char_width),
-                          Math.floor(y - 0.35*char_height));
+                          Math.floor(y + 0.75*char_height));
 
   }
 }
@@ -3186,6 +3195,7 @@ function del_sel_regions() {
   save_current_data_to_browser_cache();
 
   show_message('Deleted ' + del_region_count + ' selected regions');
+  showImageLayer();
 }
 
 function sel_all_regions() {
@@ -3818,6 +3828,62 @@ function toggleUploadButton(status){
   }
 }
 
+function showImageLayer(){
+  let html = '';
+  for(var i in _via_canvas_regions){
+    let obj = _via_canvas_regions[i];
+    html += `<li title="`+obj.shape_attributes.name+`">
+      <div class="liCol panelIcon">
+        <i class="far fa-eye"></i>
+      </div>
+      <div class="liCol textOverflow">
+        <svg height="24" viewBox="0 0 32 32">
+          <use xlink:href="#shape_`+obj.shape_attributes.name+`"></use>
+        </svg>
+        <span>`+obj.shape_attributes.name+`</span>
+        <input class="del" value="`+i+`" onchange="selectMultipleLayer(this.value)" type="checkbox"/>
+      </div>
+    </li>`;
+  }
+  _layerList.innerHTML = html;
+}
+/**
+ * Function can be used to select multple layer
+ * 
+ * @param {integer} id layer id
+ * @param {boolean} status status os layer
+ */
+function selectMultipleLayer(id,status){
+  status = status || true;
+  set_region_select_state(id,status);
+  _via_redraw_reg_canvas();
+}
+
+/**
+ * Delete element based on selection
+ */
+function delElement(){
+  let status = _img_list_panel.classList.contains('show');
+  if(status){
+    del_sel_image();
+  }else{
+    del_sel_regions();
+  }
+}
+
+/**
+ * Delete selected image
+ */
+function del_sel_image(){
+  let $elems = document.querySelectorAll('.imgDel:checked');
+  for(var i = 0; i < $elems.length; i++){
+    delete _via_img_metadata[$elems[i].value];
+    _via_image_id_list.splice(_via_image_id_list.indexOf($elems[i].value),1);
+    _via_img_count = _via_image_id_list.length; 
+  }
+  _via_update_ui_components();
+  reload_img_table();
+}
 //
 // hooks for sub-modules
 // implemented by sub-modules
