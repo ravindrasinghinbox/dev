@@ -1,94 +1,104 @@
-html,
-body {
+.annotation {
     width: 100%;
-    height: 100%;
-}
-
-body {
+    height: inherit;
+    position: relative;
+    top: 0;
+    left: 0;
     padding-top: 48px !important;
     padding-left: 48px !important;
-    background: #DDDDDD !important;
+    background: white !important;
+}
+#ui_top_panel
+{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 4px !important;
+}
+.annotation .bg-light {
+    background-color: white !important;
 }
 
-.bg-light {
-    background-color: #EEEEEE !important;
-}
-
-a,
-button {
+.annotation a,
+.annotation button {
     color: #adadad !important;
 }
+.annotation button:focus,
+.annotation button:active {
+    box-shadow: 0 0 0 0.1rem rgba(0,123,255,.25);
+}
 
-a:hover {
+.annotation a:hover {
     color: #000000;
 }
 
-.btn-transparent {
+.annotation .btn-transparent {
     background: none;
 }
 
-.seprator {
-    border-right: 1px solid #e8e8e8;
+.annotation .seprator {
+    border-right: 1px solid #dedcdc;
 }
 
-.far,
-.fas {
+.annotation .far,
+.annotation .fas {
     font-size: 1.5em;
     vertical-align: bottom;
 }
 
-nav {
+.annotation nav {
     padding: 4px !important
 }
 
-.nav-link {
+.annotation .nav-link {
     padding: .5rem 1.5rem !important;
 }
 
-.crossBtn {
+.annotation .crossBtn {
     background: gainsboro;
 }
 
-.t-container {
+.annotation .t-container {
     display: table;
     width: 100%;
     height: 100%;
 }
 
-.t-cell {
+.annotation .t-cell {
     display: table-cell;
 }
 
-.alignMiddle {
+.annotation .alignMiddle {
     vertical-align: middle;
 }
 
-.leftSide {
-    position: fixed;
+.annotation .leftSide {
+    position: absolute;
     top: 48px;
     left: 0;
-    height: 100%;
+    height: -webkit-fill-available;
     z-index: 999999;
     width: 48px;
     background: #eeeeee;
 }
 
-ul.region_shape li {
+.annotation ul.region_shape li {
     float: left;
     padding: 0 0.2em;
     fill: #ffffff;
     stroke: #000000;
 }
 
-.region_shape {
+.annotation .region_shape {
     padding: 0px;
 }
 
-ul.region_shape li {
+.annotation ul.region_shape li {
     border-bottom: 1px solid #c7c7c7;
 }
 
-ul.region_shape {
+.annotation ul.region_shape {
     font-size: xx-large;
     list-style-type: none;
     overflow: hidden;
@@ -97,69 +107,73 @@ ul.region_shape {
     text-align: center;
 }
 
-ul.region_shape li {
+.annotation ul.region_shape li {
     width: 100%;
     padding: 0;
     fill: #ffffff;
     stroke: #000000;
 }
 
-ul.region_shape li:hover {
+.annotation ul.region_shape li:hover {
     cursor: pointer;
 }
 
-ul.region_shape .selected,
-ul.region_shape li:hover {
+.annotation ul.region_shape .selected,
+.annotation ul.region_shape li:hover {
     fill: #9E9E9E;
     stroke: #565656;
     background: #adadad;
 }
 
-button.btn.uploadImage {
+.annotation button.btn.uploadImage {
     border: 1px dashed;
     padding: 17px;
     font-size: 2em;
+    background: white;
 }
 
-svg {
+.annotation svg {
     fill: #d9d9d9;
 }
 
-.rightContainer {
+.annotation .rightContainer {
     width: 240px;
     max-width: 240px;
 }
 
-.rightContainer.panelHide {
+.annotation .rightContainer.panelHide {
     transition: width 0.3s ease-in-out;
 }
 
-.rightContainer .nav-tabs {
+.annotation .rightContainer .nav-tabs {
     border-bottom: 2px solid #ffffff;
 }
 
-.rightContainer .nav-tabs .nav-link {
+.annotation .rightContainer .nav-tabs .nav-link {
     border: 0;
 }
 
-.panelList {
+.annotation .panelList {
     position: relative;
     overflow: hidden;
-    margin-top: 50px;
+    margin-top: 14px;
     padding-bottom: 25px;
     background: #e0e0e0;
     border: 1px solid white;
-    border-radius: 10px 0px 0px 10px;
+    border-radius: 10px 0px 0px 10px;    
     box-shadow: 0px 0px 2px 1px #a09c9c;
+    z-index: 501;
+    right: 3px;
 }
-div#panelContent {
+
+.annotation div#panelContent {
     min-height: 250px;
     max-height: -webkit-fill-available;
     overflow-y: auto;
 }
-.panelFooter{
+.annotation .panelFooter{
     position: absolute;
-    padding: 5px;
+    padding: 5px 10px;
     bottom: 0;
     font-size: 10px;
     left: 0;
@@ -167,152 +181,151 @@ div#panelContent {
     height: 25px;
     background: #ffffff;
 }
-.panelHide .panelFooter{
+.annotation .panelHide .panelFooter{
     display: none;
 }
-.panelHide .panelList {
+.annotation .panelHide .panelList {
     overflow: hidden;
     padding-bottom: 0px;
 }
 
-.navTools {
+.annotation .navTools {
     background: rgb(210, 210, 210);
     padding: 0px 5px;
     color: darkgray;
 }
 
-.tab-content ul {
+.annotation .tab-content ul {
     padding: 0px 5px;
     list-style: none;
 }
 
-.liCol {
+.annotation .liCol {
     display: inline-block;
     vertical-align: bottom;
 }
 
-.liCol svg {
+.annotation .liCol svg {
     stroke: #a8a8a8;
     fill: #d9d9d9;
     vertical-align: inherit;
 }
 
-.panelIcon {
+.annotation .panelIcon {
     border-right: 1px solid #c7c7c7;
     padding: 0px 8px;
 }
 
-.imgIcon {
+.annotation .imgIcon {
     border-right: 1px solid #c7c7c7;
     padding: 0;
     padding-right: 5px;
 }
 
-.panelIcon i {
+.annotation .panelIcon i {
     font-size: 17px;
     color: #adadad;
     vertical-align: initial;
 }
 
-.tabList li {
+.annotation .tabList li {
     border-bottom: 1px solid #c7c7c7;
     padding: 5px 0px;
 }
 
-.tabList li:last-child {
+.annotation .tabList li:last-child {
     border-bottom: none;
 }
 
-.imgThumb {
+.annotation .imgThumb {
     width: 30px;
     height: 20px;
     border: 1px solid white;
 }
 
-.panelHide {
+.annotation .panelHide {
     width: 40px;
 }
 
-.panelHide .nav-tabs .nav-item {
+.annotation .panelHide .nav-tabs .nav-item {
     width: 100%;
 }
 
-.panelHide .nav-item a {
+.annotation .panelHide .nav-item a {
     padding: 15px 10px !important;
     text-align: center;
     font-size: 19px;
 }
 
-.panelHide .tab-content,
-.nav-item span {
+.annotation .panelHide .tab-content,
+.annotation .nav-item span {
     display: none;
 }
 
-.panelHide .nav-tabs {
+.annotation .panelHide .nav-tabs {
     border-bottom: none;
 }
 
-#loaded_img_panel {
+.annotation #loaded_img_panel {
     padding-left: 5px;
 }
 
-.panelHide #loaded_img_panel {
+.annotation .panelHide #loaded_img_panel {
     display: none;
 }
 
 /* Defalut */
 
-#message_panel {
-    position: fixed;
+.annotation #message_panel {
+    position: absolute;
     left: 0;
     bottom: 0px;
     line-height: 3em;
     width: 100%;
-    background-color: rgb(210, 210, 210);
+    background-color: rgb(238, 238, 238);
     color: #333332;
     font-size: small;
     text-align: center;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    z-index: 1000;
+    z-index: 500;
 }
 
-#image_canvas {
+.annotation #image_canvas {
     position: absolute;
     top: 0px;
     left: 0px;
     z-index: 1;
 }
 
-#region_canvas {
+.annotation #region_canvas {
     position: absolute;
     top: 0px;
     left: 0px;
     z-index: 2;
 }
 
-.canvasCell {
+.annotation .canvasCell {
     padding: 15px;
 }
 
-#canvas_panel {
+.annotation #canvas_panel {
     position: relative;
     margin: 0;
     padding: 0;
-    box-shadow: 0px 0px 5px;
 }
 
-.text_panel li {
+.annotation .annotation .text_panel li {
     list-style: none;
 }
 
-#loaded_img_panel {
+.annotation #loaded_img_panel {
     padding-left: 5px;
     display: inline-block;
 }
 
-.loading_spinbox {
+.annotation .loading_spinbox {
     display: inline-block;
     border: 0.4em solid #cccccc;
     border-radius: 50%;
@@ -339,28 +352,102 @@ div#panelContent {
     }
 }
 
-.textOverflow {
+.annotation .textOverflow {
     overflow: hidden;
     text-overflow: ellipsis;
     width: 80%;
     white-space: nowrap;
 }
-#moreImage{
+.annotation .annotation #moreImage{
     display: none;
 }
-#moreImage.active{
+.annotation #moreImage.active{
     display: initial;
 }
-ul#layerList .del {
+.annotation ul#layerList .del {
     float: right;
     margin-top: 6px;
 }
-.imgDel{
+.annotation .imgDel{
     float: right;
     margin-top: 7px;
 }
-.imageText{
+.annotation .imageText{
     display:inline-block;
     cursor:pointer;
     width:92%;
+}
+.annotation .menus a.nav-link {
+    padding: .5rem 1.5rem !important;
+}
+.annotationHeading .heading h5 {
+    font-weight: 400;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #CCC;
+    font-size: 1.05rem;
+    color: #003a3b;
+    margin-bottom: 10px;
+    font-size: 1rem;
+}
+.displaycontent {
+    height: calc(100% - 88px);
+}
+#display_area {
+    display: flex;
+}
+.annotation .editorContent textarea{
+    resize: none;
+    border: none;
+    background: #e0e0e0;
+    min-height: 80px;
+}
+.annotation .editorContent textarea:focus{
+    background:#efefef;
+}
+.annotation .form-control:focus {
+    color: #495057;
+    background-color: unset;
+    border-color: unset;
+    border: none;
+    box-shadow: none;
+}
+.annotation .typeLink{
+    cursor: pointer;
+}
+.annotation #editorSelection{
+    background: inherit;
+    border: none;
+    outline: none;
+    color: darkgray;
+}
+.annotation .panelList.withEditor{
+    padding-bottom: 42px;
+}
+.annotation .times{
+    font-size: 21px;
+    color: #5a5a5a;
+    line-height: 33px;
+    vertical-align: text-bottom;
+}
+.annotation .withEditor .panelFooter{
+    height: 41px;
+    background: #fafafa;
+}
+.annotation #audio{
+    width: 201px;
+}
+.annotation .editorContent {
+    position: relative;
+    top: 0;
+    left: 0;
+}
+.annotation .visualization {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+.annotation .editorContent:hover .visualization {
+    display: none;
 }

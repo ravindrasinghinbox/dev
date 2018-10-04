@@ -3,7 +3,10 @@ _this = {
   panelNav: '#panelNav',
   panelHide: 'panelHide',
   panelLeftArrow: 'fa-angle-double-left',
-  panelRightArrow: 'fa-angle-double-right'
+  panelRightArrow: 'fa-angle-double-right',
+  mediaElements:['#record','#stop','#play'],
+  visualizationElements:['#analyser','#wavedisplay'],
+  mediaRecordElem: document.getElementById('record')
 }
 
 /**
@@ -30,10 +33,65 @@ function togglePanel() {
   _via_update_ui_components();
 }
 
-(function () {
-  $('.rightContainer a.nav-link').click(function () {
-    if ($(this).closest('.' + _this.panelHide).length) {
-      togglePanel();
-    }
-  });
-})();
+/**
+ * Clear text editor content
+ * 
+ * @param {id} id element id of text editor
+ */
+function clearTextEditor(id){
+  $(id).val('');
+}
+
+/**
+ * Start voice recording
+ */
+function record(){
+  toggleVisualization('#analyser');
+  toggleRecording(_this.mediaRecordElem);
+  togglePage('#stop');
+}
+
+/**
+ * Stop voice recording
+ */
+function stop(){
+  togglePage('#play');
+  toggleVisualization('#wavedisplay');
+  toggleRecording(_this.mediaRecordElem);
+}
+
+/**
+ * Play recorded voice
+ */
+function play(){
+  togglePage('#record');
+  toggleVisualization();
+}
+
+/**
+ * Function can be used to show element
+ * section
+ * 
+ * @param {string} id element id
+ */
+function togglePage(id){
+  let elems = _this.mediaElements.slice();
+  let index = elems.indexOf(id);
+  if(index >= 0){
+    elems.splice(index,1);
+  }
+
+  $(elems.join(',')).hide();
+  $(id).show();
+}
+
+function toggleVisualization(id){
+  let elems = _this.visualizationElements.slice();
+  let index = elems.indexOf(id);
+  if(index >= 0){
+    elems.splice(index,1);
+  }
+
+  $(elems.join(',')).hide();
+  $(id).show();
+}
