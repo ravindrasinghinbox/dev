@@ -373,7 +373,7 @@ function store_local_img_ref(event) {
           var tempReader = new FileReader();
           tempReader.readAsDataURL(file);
           tempReader.onloadend = function () {
-            _via_img_metadata[img_id].src = tempReader.result;
+            _via_img_metadata[img_id].base64_img_data = tempReader.result;
           }
         })(img_id, user_selected_images[i]);
         _via_image_id_list.push(img_id);
@@ -601,11 +601,12 @@ function import_annotations_from_json(data) {
   }
 
   var d = JSON.parse(data);
-
+  _via_img_metadata = d;
+  _via_image_id_list = [];
   var region_import_count = 0;
   for (var image_id in d) {
     if (_via_img_metadata.hasOwnProperty(image_id)) {
-
+      _via_image_id_list.push(image_id);
       // copy image attributes
       for (var key in d[image_id].file_attributes) {
         if (!_via_img_metadata[image_id].file_attributes[key]) {
@@ -618,6 +619,8 @@ function import_annotations_from_json(data) {
 
       // copy regions
       var regions = d[image_id].regions;
+      _via_img_metadata[image_id].regions = [];
+      _via_image_index = 0;
       for (var i in regions) {
         var region_i = new ImageRegion();
         for (var key in regions[i].shape_attributes) {
@@ -641,9 +644,14 @@ function import_annotations_from_json(data) {
     }
   }
   show_message('Import Summary : [' + region_import_count + '] regions');
-
+// Loading image from json
   _via_reload_img_table = true;
+  _via_current_image_loaded = true;
   show_image(_via_image_index);
+  _via_img_count = _via_image_id_list.length;
+  _via_is_loaded_img_list_visible = true;
+  reload_img_table();
+  show_img_list();
 }
 
 // assumes that csv line follows the RFC 4180 standard
@@ -848,8 +856,8 @@ function pack_via_metadata(return_type) {
       image_data.fileref = '';
       image_data.size = _via_img_metadata[image_id].size;
       image_data.filename = _via_img_metadata[image_id].filename;
-      image_data.base64_img_data = '';
-      //image_data.base64_img_data = _via_img_metadata[image_id].base64_img_data;
+      // image_data.base64_img_data = '';
+      image_data.base64_img_data = _via_img_metadata[image_id].base64_img_data;
 
       // copy file attributes
       image_data.file_attributes = {};
@@ -1161,8 +1169,8 @@ function set_all_canvas_size(w, h) {
 
   var heightPadding = parseInt(getStyle(_canvasCell, 'padding-top')) + parseInt(getStyle(_canvasCell, 'padding-bottom'));
 
-  w = _canvasCell.offsetWidth - widthPadding;
-  h = _canvasCell.offsetHeight - heightPadding;
+  var w1 = _canvasCell.offsetWidth - widthPadding;
+  var h1 = _canvasCell.offsetHeight - heightPadding;
 
   _via_img_canvas.height = h;
   _via_img_canvas.width = w;
@@ -1170,8 +1178,8 @@ function set_all_canvas_size(w, h) {
   _via_reg_canvas.height = h;
   _via_reg_canvas.width = w;
 
-  canvas_panel.style.height = h + 'px';
-  canvas_panel.style.width = w + 'px';
+  canvas_panel.style.height = h1 + 'px';
+  canvas_panel.style.width = w1 + 'px';
 }
 
 function set_all_canvas_scale(s) {
@@ -1260,7 +1268,7 @@ function reload_img_table() {
 
     fni += `<li id="flist` + i + `"  title="` + _via_loaded_img_fn_list[i] + `">
         <div class="liCol imgIcon">
-          <img src="`+ _via_img_metadata[_via_image_id_list[i]].src + `" class="imgThumb">
+          <img src="`+ _via_img_metadata[_via_image_id_list[i]].base64_img_data + `" class="imgThumb">
         </div>
         <div class="liCol `+ dynamicClass + ` textOverflow">
           <div class="imageText" `+ dynamicEvent + `>` + _via_loaded_img_fn_list[i] + `</div> ` + imgDel + `
@@ -2999,7 +3007,7 @@ function _via_update_ui_components() {
 /**
  * Prevent keyboard assign for text editor
  */
-function preventEditor(e) {
+function preventEditor(e) { return false;
   if (e.target.nodeName !== 'BODY') {
     return true;
   }
@@ -4026,7 +4034,22 @@ function updateLayerCheckbox(index, status) {
   elem[index].checked = status;
   return status;
 }
-
+function dataURItoBlob(dataURI) {
+  // convert base64/URLEncoded data component to raw binary data held in a string
+  var byteString;
+  if (dataURI.split(',')[0].indexOf('base64') >= 0)
+      byteString = atob(dataURI.split(',')[1]);
+  else
+      byteString = unescape(dataURI.split(',')[1]);
+  // separate out the mime component
+  var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+  // write the bytes of the string to a typed array
+  var ia = new Uint8Array(byteString.length);
+  for (var i = 0; i < byteString.length; i++) {
+      ia[i] = byteString.charCodeAt(i);
+  }
+  return new Blob([ia], {type:mimeString});
+}
 //
 // hooks for sub-modules
 // implemented by sub-modules
