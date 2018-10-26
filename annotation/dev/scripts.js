@@ -596,6 +596,10 @@ function import_annotations_from_csv(data) {
 }
 
 function import_annotations_from_json(data) {
+  if (typeof (preload) !== 'undefined' && preload !== '') {
+    data = preload;
+  }
+
   if (data === '' || typeof (data) === 'undefined') {
     return;
   }
@@ -4034,6 +4038,8 @@ function updateLayerCheckbox(index, status) {
   elem[index].checked = status;
   return status;
 }
+// Auto load from json
+import_annotations_from_json();
 
 //
 // hooks for sub-modules
